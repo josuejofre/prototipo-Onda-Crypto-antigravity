@@ -404,7 +404,10 @@
         const newTradeDrawer = document.getElementById('newTradeDrawer');
 
         function toggleDrawer() {
-            newTradeDrawer.classList.toggle('open');
+            const isOpen = newTradeDrawer.classList.toggle('open');
+            if (isOpen) {
+                calculateQuote();
+            }
         }
 
         openNewTradeBtn.addEventListener('click', toggleDrawer);
