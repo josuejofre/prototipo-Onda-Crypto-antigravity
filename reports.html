@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OndaFinance Reports</title>
+    <!-- Modern font -> Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons for precise interface icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <img src="logo.png" alt="OndaFinance" style="height: 32px; width: auto;">
+        </div>
+        <nav class="nav-menu">
+            <a href="wallet.html" class="nav-item">
+                <i class="ph ph-wallet"></i> Wallet
+            </a>
+            <a href="trades.html" class="nav-item">
+                <i class="ph ph-chart-line-up"></i> Trades
+            </a>
+            <a href="reports.html" class="nav-item active">
+                <i class="ph ph-file-text"></i> Reports
+            </a>
+            <a href="administration.html" class="nav-item">
+                <i class="ph ph-users"></i> Administration
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Interface -->
+    <main class="main-content">
+        <!-- Top Header Profile -->
+        <header class="header">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="ph ph-list" style="font-size: 24px;"></i>
+            </button>
+            <div class="header-actions">
+                <div class="notification-wrapper">
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="ph ph-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <!-- Notification Dropdown -->
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h3>Notifications</h3>
+                            <button class="mark-all-read">Mark all as read</button>
+                        </div>
+                        <div class="dropdown-body">
+                            <div class="notification-item unread">
+                                <div class="notif-icon notif-green"><i class="ph ph-check-circle"></i></div>
+                                <div class="notif-content">
+                                    <p><strong>KYC Approved</strong></p>
+                                    <p class="notif-desc">Joao Silva's verification was successful.</p>
+                                    <span class="notif-time">2 mins ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notif-icon notif-yellow"><i class="ph ph-arrows-clockwise"></i></div>
+                                <div class="notif-content">
+                                    <p><strong>Fiat Deposit Pending</strong></p>
+                                    <p class="notif-desc">€5,000.00 deposit is processing.</p>
+                                    <span class="notif-time">1 hour ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notif-icon notif-blue"><i class="ph ph-arrows-left-right"></i></div>
+                                <div class="notif-content">
+                                    <p><strong>Swap Executed</strong></p>
+                                    <p class="notif-desc">Successfully swapped 0.5 BTC to ETH.</p>
+                                    <span class="notif-time">3 hours ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-footer">
+                            <a href="#">View all notifications</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="theme-toggle">
+                    <i class="ph ph-sun" style="font-size: 20px;"></i>
+                </button>
+                <div class="user-profile">
+                    <img src="https://i.pravatar.cc/150?u=johndoe" alt="John Doe" class="avatar">
+                    <div class="user-info">
+                        <span class="user-name">John Doe</span>
+                        <span class="user-email">johndoe@brokers...</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Header Panel Info -->
+            <div class="page-header" style="margin-bottom: 24px;">
+                <div>
+                    <h1 class="page-title">Reports</h1>
+                    <p style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">Generate and download financial reports</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-primary">
+                        <i class="ph ph-plus"></i> New Report
+                    </button>
+                </div>
+            </div>
+
+            <!-- Report Types Cards -->
+            <div class="reports-grid">
+                <div class="report-card">
+                    <div class="report-icon">
+                        <i class="ph ph-file-text"></i>
+                    </div>
+                    <p>Account Statement</p>
+                </div>
+                <div class="report-card">
+                    <div class="report-icon">
+                        <i class="ph ph-file-text"></i>
+                    </div>
+                    <p>Crypto Tax Report</p>
+                </div>
+                <div class="report-card">
+                    <div class="report-icon">
+                        <i class="ph ph-file-text"></i>
+                    </div>
+                    <p>XPCT Report</p>
+                </div>
+                <div class="report-card">
+                    <div class="report-icon">
+                        <i class="ph ph-file-text"></i>
+                    </div>
+                    <p>Trades VAT Report</p>
+                </div>
+                <div class="report-card">
+                    <div class="report-icon">
+                        <i class="ph ph-file-text"></i>
+                    </div>
+                    <p>Securities Account Closed</p>
+                </div>
+            </div>
+
+            <!-- Generated Reports Panel -->
+            <div class="panel users-panel" style="margin-top: 32px; padding: 24px;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+                    <div>
+                        <h2 class="section-title" style="margin-bottom: 4px;">Generated Reports</h2>
+                        <p style="color: var(--text-secondary); font-size: 13px;">View and download your reports</p>
+                    </div>
+                    <div class="filter-input-wrapper" style="width: 160px;">
+                        <select class="filter-input">
+                            <option>All Types</option>
+                        </select>
+                        <i class="ph ph-caret-down"></i>
+                    </div>
+                </div>
+                
+                <div class="table-container table-flush">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Report</th>
+                                <th>Type</th>
+                                <th>Period</th>
+                                <th>Created</th>
+                                <th>Status</th>
+                                <th style="text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="report-td-name">
+                                        <div class="report-td-icon"><i class="ph ph-file-text"></i></div>
+                                        <span>Account Statement - Jan 2026</span>
+                                    </div>
+                                </td>
+                                <td>Account Statement</td>
+                                <td>31/12/2025 - 30/01/2026</td>
+                                <td>31/01/2026, 20:59</td>
+                                <td><span class="badge-outline badge-green"><i class="ph ph-check-circle" style="margin-right: 4px;"></i> Completed</span></td>
+                                <td class="actions-td">
+                                    <div class="action-buttons-group">
+                                        <button class="btn btn-secondary btn-sm"><i class="ph ph-file-csv"></i> CSV</button>
+                                        <button class="btn btn-secondary btn-sm"><i class="ph ph-file-pdf"></i> PDF</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="report-td-name">
+                                        <div class="report-td-icon"><i class="ph ph-file-text"></i></div>
+                                        <span>Crypto Tax Report 2025</span>
+                                    </div>
+                                </td>
+                                <td>Crypto Tax Report</td>
+                                <td>31/12/2024 - 30/12/2025</td>
+                                <td>15/01/2026, 07:30</td>
+                                <td><span class="badge-outline badge-green"><i class="ph ph-check-circle" style="margin-right: 4px;"></i> Completed</span></td>
+                                <td class="actions-td">
+                                    <div class="action-buttons-group">
+                                        <button class="btn btn-secondary btn-sm"><i class="ph ph-file-csv"></i> CSV</button>
+                                        <button class="btn btn-secondary btn-sm"><i class="ph ph-file-pdf"></i> PDF</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="report-td-name">
+                                        <div class="report-td-icon"><i class="ph ph-file-text"></i></div>
+                                        <span>Account Statement - Feb 2026</span>
+                                    </div>
+                                </td>
+                                <td>Account Statement</td>
+                                <td>31/01/2026 - 27/02/2026</td>
+                                <td>28/02/2026, 20:59</td>
+                                <td><span class="badge-outline badge-yellow"><i class="ph ph-arrows-clockwise" style="margin-right: 4px;"></i> Processing</span></td>
+                                <td class="actions-td">
+                                    <span style="font-size: 13px; color: var(--text-secondary); padding-right: 8px;">Generating...</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="report-td-name">
+                                        <div class="report-td-icon"><i class="ph ph-file-text"></i></div>
+                                        <span>XPCT Report Q1 2026</span>
+                                    </div>
+                                </td>
+                                <td>XPCT Report</td>
+                                <td>31/12/2025 - 30/03/2026</td>
+                                <td>01/03/2026, 05:00</td>
+                                <td><span class="badge-outline badge-red"><i class="ph ph-x-circle" style="margin-right: 4px;"></i> Failed</span></td>
+                                <td class="actions-td">
+                                    <div class="action-buttons-group">
+                                        <button class="btn btn-secondary btn-sm"><i class="ph ph-arrows-clockwise"></i> Retry</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('open');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // Notification dropdown logic
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+
+        function toggleNotifications(e) {
+            e.stopPropagation();
+            notificationDropdown.classList.toggle('show');
+        }
+
+        if (notificationBtn) {
+            notificationBtn.addEventListener('click', toggleNotifications);
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (notificationBtn && notificationDropdown) {
+                if (!notificationBtn.contains(e.target) && !notificationDropdown.contains(e.target)) {
+                    notificationDropdown.classList.remove('show');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OndaFinance Login</title>
+    <!-- Modern font -> Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons for precise interface icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="login-styles.css">
+</head>
+<body>
+    
+    <div class="login-container">
+        <!-- Left Banner Side (hidden on mobile) -->
+        <div class="login-banner">
+            <div class="logo">
+                <img src="logo.png" alt="OndaFinance" style="height: 32px; width: auto;">
+            </div>
+            
+            <!-- Abstract background shape on banner -->
+            <svg class="bg-shape" viewBox="0 0 500 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,500 L500,500 L500,450 C350,450 300,300 150,300 C50,300 0,350 0,350 Z" fill="#4ade80" />
+            </svg>
+        </div>
+
+        <!-- Right Side Form Content -->
+        <div class="login-form-area">
+            
+            <div class="top-nav">
+                <!-- Mobile only logo -->
+                <div class="logo mobile-logo">
+                    <img src="logo.png" alt="OndaFinance" style="height: 32px; width: auto;">
+                </div>
+                <div class="contact-cta">
+                    Don't have an account? <a href="#">Contact us</a>
+                </div>
+            </div>
+
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <h1>Sign in to Onda<br>Finance</h1>
+                    <p class="subtitle">Please ensure you are visiting the correct url.</p>
+                    <div class="url-badge">
+                        <i class="ph ph-lock-key"></i>
+                        <span class="url-text"><span class="url-green">https://</span>app.ondafinance.com/sign-in</span>
+                    </div>
+                </div>
+
+                <form id="loginForm" action="index.html">
+                    <div class="input-group">
+                        <label for="email">EMAIL</label>
+                        <input type="email" id="email" value="johndoe@brokerse.com.br" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="password">PASSWORD</label>
+                        <div class="password-input">
+                            <input type="password" id="password" value="............" required>
+                            <button type="button" class="toggle-password" tabindex="-1">
+                                <i class="ph ph-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="forgot-pwd-container">
+                        <a href="#" class="forgot-pwd">Forgot password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-login" id="loginSubmitBtn">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default submission
+            window.location.href = 'trades.html'; // Redirect to dashboard
+        });
+
+        // Simple password toggle visibility (visual only for the mockup)
+        const toggleBtn = document.querySelector('.toggle-password');
+        const pwdInput = document.getElementById('password');
+        toggleBtn.addEventListener('click', () => {
+            const type = pwdInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            pwdInput.setAttribute('type', type);
+            toggleBtn.innerHTML = type === 'password' ? '<i class="ph ph-eye"></i>' : '<i class="ph ph-eye-slash"></i>';
+        });
+        // Notification dropdown logic
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+
+        function toggleNotifications(e) {
+            e.stopPropagation();
+            notificationDropdown.classList.toggle('show');
+        }
+
+        if (notificationBtn) {
+            notificationBtn.addEventListener('click', toggleNotifications);
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (notificationBtn && notificationDropdown) {
+                if (!notificationBtn.contains(e.target) && !notificationDropdown.contains(e.target)) {
+                    notificationDropdown.classList.remove('show');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

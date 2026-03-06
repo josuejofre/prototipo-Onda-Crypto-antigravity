@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OndaFinance Administration</title>
+    <!-- Modern font -> Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons for precise interface icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <img src="logo.png" alt="OndaFinance" style="height: 32px; width: auto;">
+        </div>
+        <nav class="nav-menu">
+            <a href="wallet.html" class="nav-item">
+                <i class="ph ph-wallet"></i> Wallet
+            </a>
+            <a href="trades.html" class="nav-item">
+                <i class="ph ph-chart-line-up"></i> Trades
+            </a>
+            <a href="reports.html" class="nav-item">
+                <i class="ph ph-file-text"></i> Reports
+            </a>
+            <a href="administration.html" class="nav-item active">
+                <i class="ph ph-users"></i> Administration
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Interface -->
+    <main class="main-content">
+        <!-- Top Header Profile -->
+        <header class="header">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="ph ph-list" style="font-size: 24px;"></i>
+            </button>
+            <div class="header-actions">
+                <div class="notification-wrapper">
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="ph ph-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <!-- Notification Dropdown -->
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h3>Notifications</h3>
+                            <button class="mark-all-read">Mark all as read</button>
+                        </div>
+                        <div class="dropdown-body">
+                            <div class="notification-item unread">
+                                <div class="notif-icon notif-green"><i class="ph ph-check-circle"></i></div>
+                                <div class="notif-content">
+                                    <p><strong>KYC Approved</strong></p>
+                                    <p class="notif-desc">Joao Silva's verification was successful.</p>
+                                    <span class="notif-time">2 mins ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notif-icon notif-yellow"><i class="ph ph-arrows-clockwise"></i></div>
+                                <div class="notif-content">
+                                    <p><strong>Fiat Deposit Pending</strong></p>
+                                    <p class="notif-desc">€5,000.00 deposit is processing.</p>
+                                    <span class="notif-time">1 hour ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notif-icon notif-blue"><i class="ph ph-arrows-left-right"></i></div>
+                                <div class="notif-content">
+                                    <p><strong>Swap Executed</strong></p>
+                                    <p class="notif-desc">Successfully swapped 0.5 BTC to ETH.</p>
+                                    <span class="notif-time">3 hours ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-footer">
+                            <a href="#">View all notifications</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="theme-toggle">
+                    <i class="ph ph-sun" style="font-size: 20px;"></i>
+                </button>
+                <div class="user-profile">
+                    <img src="https://i.pravatar.cc/150?u=johndoe" alt="John Doe" class="avatar">
+                    <div class="user-info">
+                        <span class="user-name">John Doe</span>
+                        <span class="user-email">johndoe@brokers...</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Header Panel Info -->
+            <div class="page-header" style="margin-bottom: 24px;">
+                <div>
+                    <h1 class="page-title">Administration</h1>
+                    <p style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">Manage user accounts and permissions</p>
+                </div>
+                <div class="page-actions">
+                    <button class="btn btn-primary" id="openNewUserBtn">
+                        <i class="ph ph-plus"></i> New User
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats KPI Cards -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon kpi-gray">
+                        <i class="ph ph-users"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <h3>4</h3>
+                        <p>Total Users</p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon kpi-green">
+                        <i class="ph ph-check-circle"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <h3>3</h3>
+                        <p>Active</p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon kpi-yellow">
+                        <i class="ph ph-clock"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <h3>1</h3>
+                        <p>Pending</p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon kpi-green">
+                        <i class="ph ph-shield-check"></i>
+                    </div>
+                    <div class="kpi-info">
+                        <h3>2</h3>
+                        <p>KYC Verified</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Panel -->
+            <div class="panel users-panel" style="margin-top: 32px; padding: 24px;">
+                <div style="margin-bottom: 24px;">
+                    <h2 class="section-title" style="margin-bottom: 4px;">Users</h2>
+                    <p style="color: var(--text-secondary); font-size: 13px;">Manage user accounts created via Bitpanda API</p>
+                </div>
+                
+                <!-- Search and Filters -->
+                <div class="filters-grid" style="margin-bottom: 24px;">
+                    <div class="filter-group" style="flex: 2;">
+                        <div class="input-with-icon">
+                            <i class="ph ph-magnifying-glass"></i>
+                            <input type="text" placeholder="Search by name, email, or ID...">
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group" style="max-width: 200px; flex: unset;">
+                        <div class="filter-input-wrapper">
+                            <select class="filter-input">
+                                <option>All Status</option>
+                                <option>Active</option>
+                                <option>Pending</option>
+                            </select>
+                            <i class="ph ph-caret-down"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="table-container table-flush">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>External ID</th>
+                                <th>Status</th>
+                                <th>KYC</th>
+                                <th>Country</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-td-info">
+                                        <span class="user-td-name">Joao Silva</span>
+                                        <span class="user-td-email">joao.silva@empresa.com.br</span>
+                                    </div>
+                                </td>
+                                <td>EXT-001</td>
+                                <td><span class="badge-outline badge-green">Active</span></td>
+                                <td><span class="badge-icon badge-green"><i class="ph ph-check-circle"></i> Verified</span></td>
+                                <td>BR</td>
+                                <td>15/01/2024</td>
+                                <td class="actions-td"><button class="btn-icon"><i class="ph ph-dots-three"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-td-info">
+                                        <span class="user-td-name">Maria Santos</span>
+                                        <span class="user-td-email">maria.santos@corretora.com</span>
+                                    </div>
+                                </td>
+                                <td>EXT-002</td>
+                                <td><span class="badge-outline badge-green">Active</span></td>
+                                <td><span class="badge-icon badge-green"><i class="ph ph-check-circle"></i> Verified</span></td>
+                                <td>BR</td>
+                                <td>20/02/2024</td>
+                                <td class="actions-td"><button class="btn-icon"><i class="ph ph-dots-three"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-td-info">
+                                        <span class="user-td-name">Carlos Oliveira</span>
+                                        <span class="user-td-email">carlos.oliveira@investimentos.com</span>
+                                    </div>
+                                </td>
+                                <td>EXT-003</td>
+                                <td><span class="badge-outline badge-green">Active</span></td>
+                                <td><span class="badge-icon badge-yellow"><i class="ph ph-clock"></i> Pending</span></td>
+                                <td>BR</td>
+                                <td>01/03/2024</td>
+                                <td class="actions-td"><button class="btn-icon"><i class="ph ph-dots-three"></i></button></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-td-info">
+                                        <span class="user-td-name">Ana Costa</span>
+                                        <span class="user-td-email">ana.costa@trading.com.br</span>
+                                    </div>
+                                </td>
+                                <td>EXT-004</td>
+                                <td><span class="badge-outline badge-yellow">Pending</span></td>
+                                <td><span class="badge-icon badge-yellow"><i class="ph ph-clock"></i> Pending</span></td>
+                                <td>BR</td>
+                                <td>05/03/2024</td>
+                                <td class="actions-td"><button class="btn-icon"><i class="ph ph-dots-three"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- New User Modal overlay -->
+    <div class="modal-overlay" id="newUserModal">
+        <div class="modal w-500">
+            <div class="modal-header">
+                <div>
+                    <h2>Create New User</h2>
+                    <p>Create a new user account in Bitpanda system</p>
+                </div>
+                <button class="modal-close" id="closeModalBtn"><i class="ph ph-x"></i></button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>External ID (Optional)</label>
+                    <input type="text" class="text-input" placeholder="Your internal reference ID">
+                    <span class="input-hint">Unique identifier from your system for this user</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <label>First Name *</label>
+                        <input type="text" class="text-input" placeholder="John">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Last Name *</label>
+                        <input type="text" class="text-input" placeholder="Doe">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Email *</label>
+                    <div class="input-with-icon">
+                        <i class="ph ph-envelope-simple"></i>
+                        <input type="email" placeholder="user@example.com">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <div class="input-with-icon">
+                        <i class="ph ph-phone"></i>
+                        <input type="tel" placeholder="+5511999999999">
+                    </div>
+                    <span class="input-hint">E.164 format required (e.g., +5511999999999)</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Country *</label>
+                        <div class="filter-input-wrapper">
+                            <select class="filter-input" style="padding-left: 36px;">
+                                <option>Select</option>
+                            </select>
+                            <i class="ph ph-globe" style="left: 12px; right: auto;"></i>
+                            <i class="ph ph-caret-down"></i>
+                        </div>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Language *</label>
+                        <div class="filter-input-wrapper">
+                            <select class="filter-input">
+                                <option>Select</option>
+                            </select>
+                            <i class="ph ph-caret-down"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert-box">
+                    <i class="ph ph-info"></i>
+                    <p>The user will receive a verification email. KYC verification will be required before they can perform transactions.</p>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-dark w-100" id="cancelUserBtn">Cancel</button>
+                <button class="btn btn-green-muted w-100">Create User</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('open');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // Modal Logic
+        const newUserModal = document.getElementById('newUserModal');
+        const openNewUserBtn = document.getElementById('openNewUserBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const cancelUserBtn = document.getElementById('cancelUserBtn');
+
+        function toggleModal() {
+            newUserModal.classList.toggle('open');
+        }
+
+        openNewUserBtn.addEventListener('click', toggleModal);
+        closeModalBtn.addEventListener('click', toggleModal);
+        cancelUserBtn.addEventListener('click', toggleModal);
+
+        // Close on overlay click
+        newUserModal.addEventListener('click', (e) => {
+            if (e.target === newUserModal) {
+                toggleModal();
+            }
+        });
+
+        // Notification dropdown logic
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+
+        function toggleNotifications(e) {
+            e.stopPropagation();
+            notificationDropdown.classList.toggle('show');
+        }
+
+        if (notificationBtn) {
+            notificationBtn.addEventListener('click', toggleNotifications);
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (notificationBtn && notificationDropdown) {
+                if (!notificationBtn.contains(e.target) && !notificationDropdown.contains(e.target)) {
+                    notificationDropdown.classList.remove('show');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

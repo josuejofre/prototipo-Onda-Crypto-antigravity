@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OndaFinance Dashboard</title>
+    <!-- Modern font -> Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons for precise interface icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Overlay for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="sidebar">
+        <div class="logo">
+            <img src="logo.png" alt="OndaFinance" style="height: 32px; width: auto;">
+        </div>
+        <nav class="nav-menu">
+            <a href="wallet.html" class="nav-item active">
+                <i class="ph ph-wallet"></i> Wallet
+            </a>
+            <a href="trades.html" class="nav-item">
+                <i class="ph ph-chart-line-up"></i> Trades
+            </a>
+            <a href="reports.html" class="nav-item">
+                <i class="ph ph-file-text"></i> Reports
+            </a>
+            <a href="administration.html" class="nav-item">
+                <i class="ph ph-users"></i> Administration
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Interface -->
+    <main class="main-content">
+        <!-- Top Header Profile -->
+        <header class="header">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="ph ph-list" style="font-size: 24px;"></i>
+            </button>
+            <div class="header-actions">
+                <div class="notification-wrapper">
+                    <button class="notification-btn" id="notificationBtn">
+                        <i class="ph ph-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <!-- Notification Dropdown -->
+                    <div class="notification-dropdown" id="notificationDropdown">
+                        <div class="dropdown-header">
+                            <h3>Notifications</h3>
+                            <button class="mark-all-read">Mark all as read</button>
+                        </div>
+                        <div class="dropdown-body">
+                            <div class="notification-item unread">
+                                <div class="notif-icon notif-green"><i class="ph ph-check-circle"></i></div>
+                                <div class="notif-content">
+                                    <p><strong>KYC Approved</strong></p>
+                                    <p class="notif-desc">Joao Silva's verification was successful.</p>
+                                    <span class="notif-time">2 mins ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notif-icon notif-yellow"><i class="ph ph-arrows-clockwise"></i></div>
+                                <div class="notif-content">
+                                    <p><strong>Fiat Deposit Pending</strong></p>
+                                    <p class="notif-desc">€5,000.00 deposit is processing.</p>
+                                    <span class="notif-time">1 hour ago</span>
+                                </div>
+                            </div>
+                            <div class="notification-item unread">
+                                <div class="notif-icon notif-blue"><i class="ph ph-arrows-left-right"></i></div>
+                                <div class="notif-content">
+                                    <p><strong>Swap Executed</strong></p>
+                                    <p class="notif-desc">Successfully swapped 0.5 BTC to ETH.</p>
+                                    <span class="notif-time">3 hours ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-footer">
+                            <a href="#">View all notifications</a>
+                        </div>
+                    </div>
+                </div>
+                <button class="theme-toggle">
+                    <i class="ph ph-sun" style="font-size: 20px;"></i>
+                </button>
+                <div class="user-profile">
+                    <img src="https://i.pravatar.cc/150?u=johndoe" alt="John Doe" class="avatar">
+                    <div class="user-info">
+                        <span class="user-name">John Doe</span>
+                        <span class="user-email">johndoe@brokers...</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+            <!-- Header Panel Info -->
+            <div class="panel header-panel">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Wallet & Portfolio</h1>
+                        <div class="selected-client-highlight">
+                            <div class="selected-client-display">
+                                <i class="ph ph-user"></i>
+                                Selected Client: <span class="selected-client-name" id="walletClientName">Joao Silva</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="page-actions">
+                        <div class="wallet-client-selector">
+                            <div class="input-with-icon" style="margin-bottom: 0;">
+                                <i class="ph ph-magnifying-glass"></i>
+                                <input type="text" id="walletClientSearch" placeholder="Search client by name or UUID..." value="Joao Silva">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio Summary -->
+                <div class="kpi-grid" style="margin-top: 24px;">
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-blue">
+                            <i class="ph ph-wallet"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Total Balance</h3>
+                            <div class="kpi-value">$1,245,600.00</div>
+                            <div class="kpi-trend trend-up">
+                                <i class="ph ph-trend-up"></i> +5.2% Total Return
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-green">
+                            <i class="ph ph-currency-btc"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Crypto Assets</h3>
+                            <div class="kpi-value">$850,230.15</div>
+                            <div class="kpi-trend trend-up">
+                                <i class="ph ph-trend-up"></i> 68% of Portfolio
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-icon kpi-yellow">
+                            <i class="ph ph-bank"></i>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Fiat Balance</h3>
+                            <div class="kpi-value">$395,369.85</div>
+                            <div class="kpi-trend trend-neutral">
+                                <i class="ph ph-minus"></i> 32% of Portfolio
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Asset Holdings</h2>
+            
+            <div class="panel table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ASSET INFO</th>
+                            <th>BALANCE</th>
+                            <th>VALUE (USD)</th>
+                            <th>ALLOCATION</th>
+                            <th>24H CHANGE</th>
+                            <th>ACTIONS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="user-inline-info">
+                                    <div class="avatar" style="background: rgba(247, 147, 26, 0.1); color: #f7931a;"><i class="ph ph-currency-btc"></i></div>
+                                    <div class="user-details">
+                                        <div class="user-name">Bitcoin</div>
+                                        <div class="user-email">BTC/USD $67,432.50</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>8.500000</strong> BTC
+                            </td>
+                            <td>$573,176.25</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="flex: 1; height: 6px; background: var(--border-color); border-radius: 3px; overflow: hidden;">
+                                        <div style="height: 100%; width: 46%; background: #f7931a;"></div>
+                                    </div>
+                                    <span style="font-size: 12px; color: var(--text-secondary);">46%</span>
+                                </div>
+                            </td>
+                            <td><span class="text-green">+2.4%</span></td>
+                            <td>
+                                <div class="action-buttons-group">
+                                    <button class="btn btn-sm btn-secondary">Trade</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-inline-info">
+                                    <div class="avatar" style="background: rgba(98, 126, 234, 0.1); color: #627eea;"><i class="ph ph-currency-eth"></i></div>
+                                    <div class="user-details">
+                                        <div class="user-name">Ethereum</div>
+                                        <div class="user-email">ETH/USD $3,521.80</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>45.000000</strong> ETH
+                            </td>
+                            <td>$158,481.00</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="flex: 1; height: 6px; background: var(--border-color); border-radius: 3px; overflow: hidden;">
+                                        <div style="height: 100%; width: 13%; background: #627eea;"></div>
+                                    </div>
+                                    <span style="font-size: 12px; color: var(--text-secondary);">13%</span>
+                                </div>
+                            </td>
+                            <td><span class="text-red">-0.8%</span></td>
+                            <td>
+                                <div class="action-buttons-group">
+                                    <button class="btn btn-sm btn-secondary">Trade</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-inline-info">
+                                    <div class="avatar" style="background: rgba(38, 161, 123, 0.1); color: #26a17b;"><i class="ph ph-currency-dollar"></i></div>
+                                    <div class="user-details">
+                                        <div class="user-name">Tether</div>
+                                        <div class="user-email">USDT/USD $1.00</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>118,572.90</strong> USDT
+                            </td>
+                            <td>$118,572.90</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="flex: 1; height: 6px; background: var(--border-color); border-radius: 3px; overflow: hidden;">
+                                        <div style="height: 100%; width: 9%; background: #26a17b;"></div>
+                                    </div>
+                                    <span style="font-size: 12px; color: var(--text-secondary);">9%</span>
+                                </div>
+                            </td>
+                            <td><span class="text-muted">0.0%</span></td>
+                            <td>
+                                <div class="action-buttons-group">
+                                    <button class="btn btn-sm btn-secondary">Trade</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="user-inline-info">
+                                    <div class="avatar" style="background: rgba(133, 242, 161, 0.1); color: var(--accent-green);"><i class="ph ph-bank"></i></div>
+                                    <div class="user-details">
+                                        <div class="user-name">US Dollar</div>
+                                        <div class="user-email">Fiat Balance</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <strong>395,369.85</strong> USD
+                            </td>
+                            <td>$395,369.85</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <div style="flex: 1; height: 6px; background: var(--border-color); border-radius: 3px; overflow: hidden;">
+                                        <div style="height: 100%; width: 32%; background: var(--accent-green);"></div>
+                                    </div>
+                                    <span style="font-size: 12px; color: var(--text-secondary);">32%</span>
+                                </div>
+                            </td>
+                            <td><span class="text-muted">-</span></td>
+                            <td>
+                                <div class="action-buttons-group">
+                                    <button class="btn btn-sm btn-secondary">Deposit</button>
+                                    <button class="btn btn-sm btn-secondary">Withdraw</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <!-- New Trade Drawer -->
+    <div class="drawer-overlay" id="newTradeDrawer">
+        <div class="drawer">
+            <div class="drawer-body">
+                <div class="form-group">
+                    <label>Client (bp-user-id)</label>
+                    <div class="input-with-icon">
+                        <i class="ph ph-magnifying-glass"></i>
+                        <input type="text" placeholder="Search client by name or UUID...">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Operation Type</label>
+                    <div class="toggle-group">
+                        <button class="toggle-btn active-green">Buy</button>
+                        <button class="toggle-btn">Sell</button>
+                        <button class="toggle-btn">Swap</button>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Asset</label>
+                        <div class="filter-input-wrapper">
+                            <select class="filter-input">
+                                <option>BTC - Bitcoin</option>
+                            </select>
+                            <i class="ph ph-caret-down"></i>
+                        </div>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Fiat Currency</label>
+                        <div class="filter-input-wrapper">
+                            <select class="filter-input">
+                                <option>USD - US Dollar</option>
+                            </select>
+                            <i class="ph ph-caret-down"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Amount Defined For</label>
+                    <div class="toggle-group-outline">
+                        <button class="toggle-btn-outline active">Fiat (USD)</button>
+                        <button class="toggle-btn-outline">Asset (BTC)</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Amount (USD)</label>
+                    <input type="text" class="text-input" value="0.00">
+                </div>
+
+                <div class="quote-preview">
+                    <h4>Quote Preview</h4>
+                    <div class="quote-row">
+                        <span>Asset Price</span>
+                        <span>USD 67.432,5</span>
+                    </div>
+                    <div class="quote-row">
+                        <span>Spread</span>
+                        <span>0.5%</span>
+                    </div>
+                    <div class="quote-row highlight-green">
+                        <span>Net Asset Price</span>
+                        <span>USD 67.769,662</span>
+                    </div>
+                    
+                    <div class="quote-row" style="margin-top: 12px;">
+                        <span>Fiat Amount</span>
+                        <span>USD 0.00</span>
+                    </div>
+                    <div class="quote-row">
+                        <span>Asset Amount</span>
+                        <span>0.00000000 BTC</span>
+                    </div>
+                    <div class="quote-row">
+                        <span>Fee (0.1%)</span>
+                        <span>USD 0.00</span>
+                    </div>
+                    
+                    <div class="quote-row total-row" style="margin-top: 12px;">
+                        <span>Total</span>
+                        <span class="text-green">USD 0.00</span>
+                    </div>
+                </div>
+            </div>
+            <div class="drawer-footer">
+                <button class="btn btn-dark w-100" id="cancelTradeBtn">Cancel</button>
+                <button class="btn btn-green-muted w-100">Create Offer</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('open');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleSidebar);
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // Drawer logic
+        const openNewTradeBtn = document.getElementById('openNewTradeBtn');
+        const cancelTradeBtn = document.getElementById('cancelTradeBtn');
+        const newTradeDrawer = document.getElementById('newTradeDrawer');
+
+        function toggleDrawer() {
+            newTradeDrawer.classList.toggle('open');
+        }
+
+        if (openNewTradeBtn) {
+            openNewTradeBtn.addEventListener('click', toggleDrawer);
+        }
+        
+        if (cancelTradeBtn) {
+            cancelTradeBtn.addEventListener('click', toggleDrawer);
+        }
+        
+        if (newTradeDrawer) {
+            newTradeDrawer.addEventListener('click', (e) => {
+                if (e.target === newTradeDrawer) {
+                    toggleDrawer();
+                }
+            });
+        }
+
+        // Notification dropdown logic
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+
+        function toggleNotifications(e) {
+            e.stopPropagation();
+            notificationDropdown.classList.toggle('show');
+        }
+
+        if (notificationBtn) {
+            notificationBtn.addEventListener('click', toggleNotifications);
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (notificationBtn && notificationDropdown) {
+                if (!notificationBtn.contains(e.target) && !notificationDropdown.contains(e.target)) {
+                    notificationDropdown.classList.remove('show');
+                }
+            }
+        });
+
+        // Wallet Client Selection Logic
+        const walletClientSearch = document.getElementById('walletClientSearch');
+        const walletClientName = document.getElementById('walletClientName');
+
+        if (walletClientSearch && walletClientName) {
+            walletClientSearch.addEventListener('input', (e) => {
+                // For the prototype, we simply update the display name
+                // In a real app, this would trigger a search and then update on selection
+                if (e.target.value.trim() !== '') {
+                    walletClientName.textContent = e.target.value;
+                } else {
+                    walletClientName.textContent = 'None';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
