@@ -333,7 +333,7 @@
             
             <div class="modal-footer">
                 <button class="btn btn-dark w-100" id="cancelUserBtn">Cancel</button>
-                <button class="btn btn-green-muted w-100">Create User</button>
+                <button class="btn btn-green-muted w-100" id="createUserBtn">Create User</button>
             </div>
         </div>
     </div>
@@ -370,6 +370,18 @@
             if (e.target === newUserModal) {
                 toggleModal();
             }
+        });
+
+        // Create User redirection
+        const createUserBtn = document.getElementById('createUserBtn');
+        createUserBtn.addEventListener('click', () => {
+            // Mocking the API logic
+            createUserBtn.disabled = true;
+            createUserBtn.textContent = 'Provisioning...';
+            
+            setTimeout(() => {
+                window.location.href = 'onboarding.html';
+            }, 1000);
         });
 
         // Notification dropdown logic
