@@ -168,6 +168,44 @@
                 </div>
             </div>
 
+            <!-- Performance Analytics Section -->
+            <div class="performance-section">
+                <div class="performance-header">
+                    <h2 class="section-title" style="margin-bottom: 0;">Portfolio Performance</h2>
+                    <div class="timeframe-toggles">
+                        <button class="timeframe-btn">1D</button>
+                        <button class="timeframe-btn">1W</button>
+                        <button class="timeframe-btn active">1M</button>
+                        <button class="timeframe-btn">1Y</button>
+                        <button class="timeframe-btn">ALL</button>
+                    </div>
+                </div>
+                <div class="panel" style="padding: 24px;">
+                    <div class="chart-container">
+                        <!-- Premium SVG Chart Mockup -->
+                        <svg viewBox="0 0 1000 300" class="chart-placeholder-svg" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="chartGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:rgba(82, 113, 255, 0.2);stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:rgba(82, 113, 255, 0);stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M0,250 Q100,230 200,200 T400,180 T600,120 T800,90 T1000,50 L1000,300 L0,300 Z" fill="url(#chartGradient)" />
+                            <path d="M0,250 Q100,230 200,200 T400,180 T600,120 T800,90 T1000,50" fill="none" stroke="var(--accent-blue)" stroke-width="3" />
+                            <circle cx="1000" cy="50" r="6" fill="var(--accent-blue)" />
+                            <circle cx="1000" cy="50" r="12" fill="var(--accent-blue)" fill-opacity="0.2" />
+                        </svg>
+                        <div style="display: flex; justify-content: space-between; margin-top: 16px; color: var(--text-secondary); font-size: 12px;">
+                            <span>Feb 13</span>
+                            <span>Feb 20</span>
+                            <span>Feb 27</span>
+                            <span>Mar 06</span>
+                            <span>Mar 13</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <h2 class="section-title">Asset Holdings</h2>
             
             <div class="panel table-container">

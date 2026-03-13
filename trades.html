@@ -374,16 +374,29 @@
                         <span>Asset Price</span>
                         <span id="quoteAssetPrice">USD 67.432,5</span>
                     </div>
-                    <div class="quote-row" id="quoteSpreadRow">
-                        <span>Spread</span>
-                        <span id="quoteSpread">0.5%</span>
+                    <div class="quote-row" id="quotePartnerSpreadRow">
+                        <span>Partner Spread</span>
+                        <span id="quotePartnerSpread">0.5%</span>
                     </div>
                     <div class="quote-row highlight-green" id="quoteNetRow">
                         <span>Net Asset Price</span>
                         <span id="quoteNetPrice">USD 67.769,662</span>
                     </div>
+
+                    <div class="quote-divider" style="height: 1px; background: var(--border-color); margin: 12px 0;"></div>
                     
-                    <div class="quote-row" style="margin-top: 12px;" id="quoteFiatRow">
+                    <div class="quote-row" id="quoteUSDQuoteRow">
+                        <span>USD Quote (Partner)</span>
+                        <span id="quoteUSDQuote">R$ 4.950</span>
+                    </div>
+                    <div class="quote-row" id="quoteOTCQuoteRow">
+                        <span>OTC Quote (Partner)</span>
+                        <span id="quoteOTCQuote">R$ 4.974</span>
+                    </div>
+
+                    <div class="quote-divider" style="height: 1px; background: var(--border-color); margin: 12px 0;"></div>
+                    
+                    <div class="quote-row" id="quoteFiatRow">
                         <span>Fiat Amount</span>
                         <span id="quoteFiatAmount">USD 0.00</span>
                     </div>
@@ -391,14 +404,14 @@
                         <span>Asset Amount</span>
                         <span id="quoteAssetAmount">0.00000000 BTC</span>
                     </div>
-                    <div class="quote-row" id="quoteFeeRow">
-                        <span>Fee (0.1%)</span>
-                        <span id="quoteFee">USD 0.00</span>
+                    <div class="quote-row" id="quoteOndaFeeRow">
+                        <span>Onda Fee (0.2%)</span>
+                        <span id="quoteOndaFee">R$ 0.00</span>
                     </div>
                     
                     <div class="quote-row total-row" style="margin-top: 12px;">
                         <span>Total (Est.)</span>
-                        <span class="text-green" id="quoteTotal">USD 0.00</span>
+                        <span class="text-green" id="quoteTotal">R$ 0.00</span>
                     </div>
                 </div>
             </div>
@@ -531,80 +544,83 @@
             
             const amount = parseFloat(amountInput.value) || 0;
             const btcPrice = 67432.50;
-            const ethBtcPrice = 15.2; // 1 BTC = 15.2 ETH
-            const spreadPercent = 0.005; // 0.5%
-            const feePercent = 0.001; // 0.1%
+            const ethBtcPrice = 15.2; 
+            const partnerSpreadPercent = 0.005; // 0.5%
+            const ondaFeePercent = 0.002; // 0.2%
+            const baseUSDQuote = 4.95; // Base USD/BRL rate from partners
 
-            if (currentOperation === 'buy') {
-                quoteAssetPrice.textContent = 'USD 67,432.50';
-                quoteSpreadRow.style.display = 'flex';
-                quoteNetRow.style.display = 'flex';
-                quoteFiatRow.style.display = 'flex';
+            // Update UI element references in case they changed
+            const quotePartnerSpread = document.getElementById('quotePartnerSpread');
+            const quoteUSDQuote = document.getElementById('quoteUSDQuote');
+            const quoteOTCQuote = document.getElementById('quoteOTCQuote');
+            const quoteOndaFee = document.getElementById('quoteOndaFee');
+            const quoteOndaFeeLabel = document.querySelector('#quoteOndaFeeRow span:first-child');
+
+            if (currentOperation === 'buy' || currentOperation === 'sell') {
+                quoteAssetPrice.textContent = `USD ${btcPrice.toLocaleString('en-US', {minimumFractionDigits: 2})}`;
                 
-                const netPrice = btcPrice * (1 + spreadPercent);
-                quoteNetPrice.textContent = `USD ${netPrice.toLocaleString('en-US', {minimumFractionDigits: 3, maximumFractionDigits: 3})}`;
-                quoteNetPrice.style.color = 'var(--accent-green)';
-                
-                let fiatAmount = 0;
-                let assetAmount = 0;
-
-                if (currentAmountType === 'fiat') {
-                    fiatAmount = amount;
-                    assetAmount = fiatAmount / netPrice;
-                } else {
-                    assetAmount = amount;
-                    fiatAmount = assetAmount * netPrice;
-                }
-
-                const fee = fiatAmount * feePercent;
-                const total = fiatAmount + fee;
-
-                quoteFiatAmount.textContent = `USD ${fiatAmount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                quoteAssetAmount.textContent = `${assetAmount.toFixed(8)} BTC`;
-                document.getElementById('quoteFee').textContent = `USD ${fee.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                quoteTotal.textContent = `USD ${total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-
-            } else if (currentOperation === 'sell') {
-                quoteAssetPrice.textContent = 'USD 67,432.50';
-                quoteSpreadRow.style.display = 'flex';
+                // Fields to show for Buy/Sell
+                document.getElementById('quotePartnerSpreadRow').style.display = 'flex';
+                document.getElementById('quoteUSDQuoteRow').style.display = 'flex';
+                document.getElementById('quoteOTCQuoteRow').style.display = 'flex';
+                document.getElementById('quoteOndaFeeRow').style.display = 'flex';
                 quoteNetRow.style.display = 'flex';
                 quoteFiatRow.style.display = 'flex';
 
-                const netPrice = btcPrice * (1 - spreadPercent);
+                const partnerSpread = btcPrice * partnerSpreadPercent;
+                const netPrice = currentOperation === 'buy' ? btcPrice + partnerSpread : btcPrice - partnerSpread;
+                
                 quoteNetPrice.textContent = `USD ${netPrice.toLocaleString('en-US', {minimumFractionDigits: 3, maximumFractionDigits: 3})}`;
-                quoteNetPrice.style.color = 'var(--accent-green)';
+                quotePartnerSpread.textContent = `${(partnerSpreadPercent * 100).toFixed(1)}%`;
+                
+                // USD Quote (Base rate)
+                quoteUSDQuote.textContent = `R$ ${baseUSDQuote.toLocaleString('pt-BR', {minimumFractionDigits: 3})}`;
+                
+                // OTC Quote (Rate + Spread)
+                const otcQuoteValue = baseUSDQuote * (1 + partnerSpreadPercent);
+                quoteOTCQuote.textContent = `R$ ${otcQuoteValue.toLocaleString('pt-BR', {minimumFractionDigits: 3})}`;
 
-                let fiatAmount = 0;
+                let fiatAmountUSD = 0;
                 let assetAmount = 0;
 
+                // For Buy, we force amount type to Fiat (USD) in UI logic later
                 if (currentAmountType === 'fiat') {
-                    fiatAmount = amount;
-                    assetAmount = fiatAmount / netPrice;
+                    fiatAmountUSD = amount;
+                    assetAmount = fiatAmountUSD / netPrice;
                 } else {
                     assetAmount = amount;
-                    fiatAmount = assetAmount * netPrice;
+                    fiatAmountUSD = assetAmount * netPrice;
                 }
 
-                const fee = fiatAmount * feePercent;
-                const total = fiatAmount - fee; // You get less back because of fee
+                // Calculations in BRL
+                const totalBRLBeforeFee = fiatAmountUSD * otcQuoteValue;
+                const ondaFeeBRL = totalBRLBeforeFee * ondaFeePercent;
+                const totalBRL = currentOperation === 'buy' ? totalBRLBeforeFee + ondaFeeBRL : totalBRLBeforeFee - ondaFeeBRL;
 
-                quoteFiatAmount.textContent = `USD ${fiatAmount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                quoteFiatAmount.textContent = `USD ${fiatAmountUSD.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
                 quoteAssetAmount.textContent = `${assetAmount.toFixed(8)} BTC`;
-                document.getElementById('quoteFee').textContent = `USD ${fee.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                quoteTotal.textContent = `USD ${total.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                
+                if (quoteOndaFeeLabel) quoteOndaFeeLabel.textContent = `Onda Fee (${(ondaFeePercent * 100).toFixed(1)}%)`;
+                quoteOndaFee.textContent = `R$ ${ondaFeeBRL.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                quoteTotal.textContent = `R$ ${totalBRL.toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
 
             } else if (currentOperation === 'swap') {
                 quoteAssetPrice.textContent = '1 BTC = 15.2 ETH';
-                quoteSpreadRow.style.display = 'none';
+                
+                // Fields to hide for Swap
+                document.getElementById('quotePartnerSpreadRow').style.display = 'none';
+                document.getElementById('quoteUSDQuoteRow').style.display = 'none';
+                document.getElementById('quoteOTCQuoteRow').style.display = 'none';
+                document.getElementById('quoteOndaFeeRow').style.display = 'none';
                 quoteNetRow.style.display = 'none';
                 quoteFiatRow.style.display = 'none';
                 
-                let btcAmount = amount; // simplified for mockup
+                let btcAmount = amount; 
                 let ethAmount = btcAmount * ethBtcPrice;
+                const swapFee = btcAmount * 0.001; // 0.1% fee for swap mockup
                 
                 quoteAssetAmount.textContent = `${btcAmount.toFixed(8)} BTC`;
-                document.getElementById('quoteFee').textContent = `${(btcAmount * feePercent).toFixed(8)} BTC`;
-                quoteTotal.textContent = `${(ethAmount * (1 - feePercent)).toFixed(4)} ETH`;
+                quoteTotal.textContent = `${(ethAmount * (1 - 0.001)).toFixed(4)} ETH`;
             }
         }
 
@@ -616,20 +632,16 @@
                 currentOperation = this.getAttribute('data-type');
                 
                 // Add specific active class
-                if (currentOperation === 'buy') {
+                if (currentOperation === 'buy' || currentOperation === 'sell') {
                     this.classList.add('active-green');
                     document.getElementById('fiatCurrencyGroup').style.display = 'flex';
                     document.getElementById('targetAssetGroup').style.display = 'none';
-                    document.getElementById('sourceAssetLabel').textContent = 'Target Asset';
-                    document.getElementById('fiatCurrencyLabel').textContent = 'Source Fiat Currency';
-                    document.getElementById('amountDefinedForGroup').style.display = 'flex';
-                } else if (currentOperation === 'sell') {
-                    this.classList.add('active-green');
-                    document.getElementById('fiatCurrencyGroup').style.display = 'flex';
-                    document.getElementById('targetAssetGroup').style.display = 'none';
-                    document.getElementById('sourceAssetLabel').textContent = 'Source Asset';
-                    document.getElementById('fiatCurrencyLabel').textContent = 'Target Fiat Currency';
-                    document.getElementById('amountDefinedForGroup').style.display = 'flex';
+                    document.getElementById('sourceAssetLabel').textContent = currentOperation === 'buy' ? 'Target Asset' : 'Source Asset';
+                    document.getElementById('fiatCurrencyLabel').textContent = currentOperation === 'buy' ? 'Source Fiat Currency' : 'Target Fiat Currency';
+                    
+                    // For Buy and Sell, we only allow USD for now
+                    document.getElementById('amountDefinedForGroup').style.display = 'none';
+                    fiatToggleBtn.click(); // Force Fiat (USD)
                 } else if (currentOperation === 'swap') {
                     this.classList.add('active-purple');
                     // Hide fiat group, show target asset selector
@@ -643,7 +655,7 @@
                 }
 
                 if (currentOperation !== 'swap') {
-                    document.getElementById('tradeAmountLabel').textContent = currentAmountType === 'fiat' ? 'Amount (USD)' : `Amount (${document.getElementById('selectedAsset').value || 'BTC'})`;
+                    document.getElementById('tradeAmountLabel').textContent = 'Amount (USD)';
                 }
                 
                 calculateQuote();

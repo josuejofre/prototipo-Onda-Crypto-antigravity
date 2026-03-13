@@ -125,44 +125,55 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" id="openNewReportBtn">
                             <i class="ph ph-plus"></i> New Report
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Report Types Cards -->
-            <div class="reports-grid">
-                <div class="report-card">
-                    <div class="report-icon">
-                        <i class="ph ph-file-text"></i>
+            <!-- Tax Insights Panel -->
+            <div class="tax-insights-panel">
+                <div class="tax-card">
+                    <div class="tax-card-header">
+                        <div class="tax-card-icon" style="background: rgba(82, 113, 255, 0.1); color: var(--accent-blue);">
+                            <i class="ph ph-shield-check"></i>
+                        </div>
+                        <span class="tax-card-title">Tax Eligibility</span>
                     </div>
-                    <p>Account Statement</p>
+                    <div class="tax-info-row">
+                        <span class="tax-info-label">Status</span>
+                        <span class="tax-info-value text-green">Eligible</span>
+                    </div>
+                    <div class="tax-info-row">
+                        <span class="tax-info-label">Tax Country</span>
+                        <span class="tax-info-value">Brazil</span>
+                    </div>
+                    <div class="tax-info-row" style="margin-bottom: 0;">
+                        <span class="tax-info-label">Withholding Rule</span>
+                        <span class="tax-info-value">Rule BR-01</span>
+                    </div>
                 </div>
-                <div class="report-card">
-                    <div class="report-icon">
-                        <i class="ph ph-file-text"></i>
+
+                <div class="tax-card">
+                    <div class="tax-card-header">
+                        <div class="tax-card-icon" style="background: rgba(38, 161, 123, 0.1); color: var(--accent-green);">
+                            <i class="ph ph-receipt"></i>
+                        </div>
+                        <span class="tax-card-title">Recent Tax Details</span>
                     </div>
-                    <p>Crypto Tax Report</p>
-                </div>
-                <div class="report-card">
-                    <div class="report-icon">
-                        <i class="ph ph-file-text"></i>
+                    <div class="tax-info-row">
+                        <span class="tax-info-label">Last Operation</span>
+                        <span class="tax-info-value">Buy BTC (13 Mar)</span>
                     </div>
-                    <p>XPCT Report</p>
-                </div>
-                <div class="report-card">
-                    <div class="report-icon">
-                        <i class="ph ph-file-text"></i>
+                    <div class="tax-info-row">
+                        <span class="tax-info-label">Calculated Tax</span>
+                        <span class="tax-info-value">R$ 0.00</span>
                     </div>
-                    <p>Trades VAT Report</p>
-                </div>
-                <div class="report-card">
-                    <div class="report-icon">
-                        <i class="ph ph-file-text"></i>
+                    <div class="tax-info-row" style="margin-bottom: 0;">
+                        <span class="tax-info-label">Tax ID Status</span>
+                        <span class="tax-info-value text-green">Verified</span>
                     </div>
-                    <p>Securities Account Closed</p>
                 </div>
             </div>
 
@@ -176,6 +187,8 @@
                     <div class="filter-input-wrapper" style="width: 160px;">
                         <select class="filter-input">
                             <option>All Types</option>
+                            <option>Account Statement</option>
+                            <option>Tax Report</option>
                         </select>
                         <i class="ph ph-caret-down"></i>
                     </div>
@@ -230,44 +243,65 @@
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="report-td-name">
-                                        <div class="report-td-icon"><i class="ph ph-file-text"></i></div>
-                                        <span>Account Statement - Feb 2026</span>
-                                    </div>
-                                </td>
-                                <td>Account Statement</td>
-                                <td>31/01/2026 - 27/02/2026</td>
-                                <td>28/02/2026, 20:59</td>
-                                <td><span class="badge-outline badge-yellow"><i class="ph ph-arrows-clockwise" style="margin-right: 4px;"></i> Processing</span></td>
-                                <td class="actions-td">
-                                    <span style="font-size: 13px; color: var(--text-secondary); padding-right: 8px;">Generating...</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="report-td-name">
-                                        <div class="report-td-icon"><i class="ph ph-file-text"></i></div>
-                                        <span>XPCT Report Q1 2026</span>
-                                    </div>
-                                </td>
-                                <td>XPCT Report</td>
-                                <td>31/12/2025 - 30/03/2026</td>
-                                <td>01/03/2026, 05:00</td>
-                                <td><span class="badge-outline badge-red"><i class="ph ph-x-circle" style="margin-right: 4px;"></i> Failed</span></td>
-                                <td class="actions-td">
-                                    <div class="action-buttons-group">
-                                        <button class="btn btn-secondary btn-sm"><i class="ph ph-arrows-clockwise"></i> Retry</button>
-                                    </div>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </main>
+
+    <!-- New Report Drawer -->
+    <div class="drawer-overlay" id="newReportDrawer">
+        <div class="drawer">
+            <div class="drawer-header">
+                <h2>Generate New Report</h2>
+                <button class="close-drawer" id="closeDrawerBtn"><i class="ph ph-x"></i></button>
+            </div>
+            <div class="drawer-body">
+                <div class="form-group">
+                    <label>Report Type</label>
+                    <div class="filter-input-wrapper">
+                        <select class="filter-input">
+                            <option>Account Statement</option>
+                            <option>Crypto Tax Report</option>
+                            <option>Trading History</option>
+                        </select>
+                        <i class="ph ph-caret-down"></i>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Start Date</label>
+                        <input type="date" class="text-input" value="2026-02-13">
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>End Date</label>
+                        <input type="date" class="text-input" value="2026-03-13">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Export Format</label>
+                    <div class="toggle-group-outline">
+                        <button class="toggle-btn-outline active">PDF Document</button>
+                        <button class="toggle-btn-outline">CSV Spreadsheet</button>
+                    </div>
+                </div>
+
+                <div class="panel" style="background: rgba(82, 113, 255, 0.05); border-color: rgba(82, 113, 255, 0.2); margin-top: 24px;">
+                    <p style="font-size: 13px; color: var(--text-secondary); margin: 0;">
+                        <i class="ph ph-info" style="color: var(--accent-blue); margin-right: 4px;"></i>
+                        Account statements include all trades, deposits, and staking rewards for the selected period.
+                    </p>
+                </div>
+            </div>
+            <div class="drawer-footer">
+                <button class="btn btn-dark w-100" id="cancelReportBtn">Cancel</button>
+                <button class="btn btn-primary w-100">Generate Report</button>
+            </div>
+        </div>
+    </div>
 
     <script>
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
@@ -281,6 +315,36 @@
 
         mobileMenuBtn.addEventListener('click', toggleSidebar);
         sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // Drawer logic
+        const openNewReportBtn = document.getElementById('openNewReportBtn');
+        const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+        const cancelReportBtn = document.getElementById('cancelReportBtn');
+        const newReportDrawer = document.getElementById('newReportDrawer');
+
+        function toggleDrawer() {
+            newReportDrawer.classList.toggle('open');
+        }
+
+        if (openNewReportBtn) {
+            openNewReportBtn.addEventListener('click', toggleDrawer);
+        }
+        
+        if (closeDrawerBtn) {
+            closeDrawerBtn.addEventListener('click', toggleDrawer);
+        }
+        
+        if (cancelReportBtn) {
+            cancelReportBtn.addEventListener('click', toggleDrawer);
+        }
+        
+        if (newReportDrawer) {
+            newReportDrawer.addEventListener('click', (e) => {
+                if (e.target === newReportDrawer) {
+                    toggleDrawer();
+                }
+            });
+        }
 
         // Notification dropdown logic
         const notificationBtn = document.getElementById('notificationBtn');

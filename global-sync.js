@@ -37,33 +37,82 @@ function updateGlobalHeader() {
         if (window.location.pathname.includes('administration.html')) {
             const existingHighlight = document.querySelector('.header-client-info');
             if (existingHighlight) existingHighlight.remove();
-            return;
-        }
-
-        let highlight = document.querySelector('.header-client-info');
-        
-        if (!highlight) {
-            highlight = document.createElement('div');
-            highlight.className = 'header-client-info';
-            headerActions.parentNode.insertBefore(highlight, headerActions);
-        }
-
-        if (selectedClient) {
-            highlight.innerHTML = `
-                <span class="header-client-label">Selected Client:</span>
-                <div class="header-client-details">
-                    <span class="header-client-name">${selectedClient.name}</span>
-                    <span class="header-client-cpf">${formatCPF(selectedClient.cpf)}</span>
-                </div>
-            `;
-            highlight.style.display = 'flex';
         } else {
-            highlight.innerHTML = `
-                <span class="header-client-label">No client selected</span>
-                <a href="wallet.html" style="font-size: 12px; color: var(--accent-green); text-decoration: none; margin-left: 8px;">Select Now</a>
-            `;
-            highlight.style.display = 'flex';
+            let highlight = document.querySelector('.header-client-info');
+            
+            if (!highlight) {
+                highlight = document.createElement('div');
+                highlight.className = 'header-client-info';
+                headerActions.parentNode.insertBefore(highlight, headerActions);
+            }
+
+            if (selectedClient) {
+                highlight.innerHTML = `
+                    <span class="header-client-label">Selected Client:</span>
+                    <div class="header-client-details">
+                        <span class="header-client-name">${selectedClient.name}</span>
+                        <span class="header-client-cpf">${formatCPF(selectedClient.cpf)}</span>
+                    </div>
+                `;
+                highlight.style.display = 'flex';
+            } else {
+                highlight.innerHTML = `
+                    <span class="header-client-label">No client selected</span>
+                    <a href="wallet.html" style="font-size: 12px; color: var(--accent-green); text-decoration: none; margin-left: 8px;">Select Now</a>
+                `;
+                highlight.style.display = 'flex';
+            }
         }
+    }
+
+    // Logo Redirect Logic
+    const logo = document.querySelector('.sidebar .logo');
+    if (logo) {
+        logo.style.cursor = 'pointer';
+        logo.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    }
+
+    // User Profile Menu Logic
+    if (userProfile) {
+        userProfile.classList.add('user-profile-clickable');
+        
+        // Remove existing dropdown if any
+        const existingMenu = document.querySelector('.user-menu-dropdown');
+        if (existingMenu) existingMenu.remove();
+
+        // Create Dropdown
+        const menu = document.createElement('div');
+        menu.className = 'user-menu-dropdown';
+        menu.innerHTML = `
+            <div class="menu-item logout-item" id="logoutBtn">
+                <i class="ph ph-sign-out"></i>
+                <span>Logout</span>
+            </div>
+        `;
+        document.body.appendChild(menu);
+
+        function toggleUserMenu(e) {
+            e.stopPropagation();
+            const rect = userProfile.getBoundingClientRect();
+            menu.style.top = `${rect.bottom + 8}px`;
+            menu.style.right = `${window.innerWidth - rect.right}px`;
+            menu.classList.toggle('show');
+        }
+
+        userProfile.addEventListener('click', toggleUserMenu);
+
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!userProfile.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.remove('show');
+            }
+        });
     }
 }
 
