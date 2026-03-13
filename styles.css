@@ -1402,3 +1402,277 @@ tbody tr:hover {
 .trend-neutral {
   color: var(--text-secondary);
 }
+/* Custom Searchable Select */
+.custom-select-container {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-main);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  height: 42px;
+  padding: 0 12px;
+  transition: all 0.2s;
+}
+
+.custom-select-input-wrapper:focus-within {
+  border-color: var(--accent-green);
+  box-shadow: 0 0 0 2px var(--accent-green-dim);
+}
+
+.custom-select-input-wrapper i.search-icon {
+  color: var(--text-muted);
+  font-size: 16px;
+  margin-right: 8px;
+}
+
+.custom-select-input-wrapper i.ph-caret-down {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+.custom-select-search {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 14px;
+  width: 100%;
+  outline: none;
+  height: 100%;
+}
+
+.custom-select-search::placeholder {
+  color: var(--text-muted);
+}
+
+.custom-select-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  max-height: 240px;
+  overflow-y: auto;
+  z-index: 1000;
+  display: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.custom-select-dropdown.show {
+  display: block;
+}
+
+.custom-select-item {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.custom-select-item:last-child {
+  border-bottom: none;
+}
+
+.custom-select-item strong {
+  color: var(--text-primary);
+  margin-right: 4px;
+}
+
+.custom-select-item:hover {
+  background-color: rgba(133, 242, 161, 0.08);
+  color: var(--accent-green);
+}
+
+.custom-select-dropdown::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-select-dropdown::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 2px;
+}
+/* Banker Badge & Profile Highlight */
+.user-profile {
+  position: relative;
+}
+
+.banker-label {
+  background-color: var(--accent-yellow-dim);
+  color: var(--accent-yellow);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-top: 2px;
+  width: fit-content;
+}
+
+/* Global Client Highlight in Header */
+.header-client-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 16px;
+  background-color: var(--bg-surface);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  margin-right: auto;
+  margin-left: 24px;
+}
+
+@media (max-width: 1200px) {
+  .header-client-info {
+    display: none; /* Hide on smaller screens to save space, or move elsewhere */
+  }
+}
+
+.header-client-label {
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.header-client-details {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-client-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent-green);
+}
+
+.header-client-cpf {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-family: 'Inter', monospace;
+}
+
+/* Wallet Search Results */
+.client-search-container {
+  position: relative;
+  width: 100%;
+}
+
+.client-results-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+  z-index: 1000;
+  display: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.client-results-dropdown.show {
+  display: block;
+}
+
+.client-result-item {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border-color);
+  transition: background-color 0.2s;
+}
+
+.client-result-item:hover {
+  background-color: rgba(133, 242, 161, 0.05);
+}
+
+.client-result-item:last-child {
+  border-bottom: none;
+}
+
+.client-result-name {
+  font-weight: 600;
+  color: var(--text-primary);
+  display: block;
+}
+
+
+/* Account Type Selection (used in Admin Modal and Onboarding) */
+.account-type-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.selection-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.selection-card:hover {
+    border-color: var(--accent-green);
+    background: rgba(0, 255, 149, 0.05);
+    transform: translateY(-2px);
+}
+
+.selection-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--accent-green-dim);
+    color: var(--accent-green);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.selection-info {
+    flex: 1;
+}
+
+.selection-info h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.selection-info p {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.selection-card .ph-caret-right {
+    color: var(--text-muted);
+    font-size: 20px;
+}
+
+.selection-card:hover .ph-caret-right {
+    color: var(--accent-green);
+}
+
+.client-result-cpf {
+  font-size: 12px;
+  color: var(--text-muted);
+}

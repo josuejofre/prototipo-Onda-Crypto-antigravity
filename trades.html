@@ -9,6 +9,7 @@
     <!-- Phosphor Icons for precise interface icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="styles.css">
+    <script src="global-sync.js" defer></script>
 </head>
 <body>
     <!-- Overlay for mobile sidebar -->
@@ -102,8 +103,27 @@
             <!-- Header Panel Info -->
             <div class="panel header-panel">
                 <div class="page-header">
-                    <h1 class="page-title">Trades</h1>
+                    <div>
+                        <h1 class="page-title">Trades</h1>
+                        <div class="selected-client-highlight">
+                            <div class="selected-client-display">
+                                <i class="ph ph-user"></i>
+                                Selected Client: <span class="selected-client-name" id="walletClientName">No client selected</span>
+                            </div>
+                        </div>
+                    </div>
                     <div class="page-actions">
+                        <div class="wallet-client-selector">
+                            <div class="client-search-container">
+                                <div class="input-with-icon" style="margin-bottom: 0;">
+                                    <i class="ph ph-magnifying-glass"></i>
+                                    <input type="text" id="walletClientSearch" placeholder="Search client by name or CPF..." autocomplete="off">
+                                </div>
+                                <div id="clientResultsDropdown" class="client-results-dropdown">
+                                    <!-- Results filled by JS -->
+                                </div>
+                            </div>
+                        </div>
                         <button class="btn btn-primary" id="openNewTradeBtn">
                             <i class="ph ph-plus"></i> New Trade
                         </button>
@@ -296,16 +316,21 @@
 
                 <div class="form-row">
                     <div class="form-group" style="flex: 1;">
-                        <label id="sourceAssetLabel">Asset</label>
-                        <div class="filter-input-wrapper">
-                            <select class="filter-input">
-                                <option>BTC - Bitcoin</option>
-                            </select>
-                            <i class="ph ph-caret-down"></i>
+                        <label id="sourceAssetLabel">Target Asset</label>
+                        <div class="custom-select-container">
+                            <div class="custom-select-input-wrapper">
+                                <i class="ph ph-magnifying-glass search-icon"></i>
+                                <input type="text" class="custom-select-search" id="assetSearchInput" placeholder="Search asset (e.g. BTC, Bitcoin)...">
+                                <i class="ph ph-caret-down"></i>
+                            </div>
+                            <div class="custom-select-dropdown" id="assetDropdown">
+                                <!-- Options filled by JS -->
+                            </div>
                         </div>
+                        <input type="hidden" id="selectedAsset" value="BTC">
                     </div>
                     <div class="form-group" style="flex: 1;" id="fiatCurrencyGroup">
-                        <label>Fiat Currency</label>
+                        <label id="fiatCurrencyLabel">Source Fiat Currency</label>
                         <div class="filter-input-wrapper">
                             <select class="filter-input">
                                 <option>USD - US Dollar</option>
@@ -314,7 +339,7 @@
                         </div>
                     </div>
                     <div class="form-group" style="flex: 1; display: none;" id="targetAssetGroup">
-                        <label>Target Asset</label>
+                        <label id="targetAssetLabel">Target Asset</label>
                         <div class="filter-input-wrapper">
                             <select class="filter-input">
                                 <option>ETH - Ethereum</option>
@@ -342,7 +367,7 @@
                     <div class="quote-countdown">
                         <h4>Quote Preview</h4>
                         <div class="countdown-timer" id="quoteCountdown" style="display: none;">
-                            <i class="ph ph-timer"></i> <span id="countdownText">10s</span>
+                            <i class="ph ph-timer"></i> <span id="countdownText">60s</span>
                         </div>
                     </div>
                     <div class="quote-row">
@@ -437,7 +462,7 @@
         const quoteTotal = document.getElementById('quoteTotal');
         
         let countdownInterval;
-        let timeLeft = 10;
+        let timeLeft = 60;
         
         // Input fields to detect changes and recalculate
         const amountInput = document.getElementById('tradeAmount');
@@ -457,7 +482,11 @@
             clearInterval(countdownInterval);
             quoteCountdown.style.display = 'flex';
             quoteCountdown.className = 'countdown-timer';
-            timeLeft = 10;
+            
+            // BTC: 15s, Others: 10s
+            const selectedAsset = document.getElementById('selectedAsset').value;
+            timeLeft = (selectedAsset === 'BTC') ? 15 : 10;
+            
             countdownText.textContent = timeLeft + 's';
             
             // Re-enable and show Create Offer
@@ -587,23 +616,34 @@
                 currentOperation = this.getAttribute('data-type');
                 
                 // Add specific active class
-                if (currentOperation === 'buy' || currentOperation === 'sell') {
+                if (currentOperation === 'buy') {
                     this.classList.add('active-green');
                     document.getElementById('fiatCurrencyGroup').style.display = 'flex';
                     document.getElementById('targetAssetGroup').style.display = 'none';
-                    document.getElementById('sourceAssetLabel').textContent = 'Asset';
+                    document.getElementById('sourceAssetLabel').textContent = 'Target Asset';
+                    document.getElementById('fiatCurrencyLabel').textContent = 'Source Fiat Currency';
                     document.getElementById('amountDefinedForGroup').style.display = 'flex';
-                }
-                if (currentOperation === 'swap') {
+                } else if (currentOperation === 'sell') {
+                    this.classList.add('active-green');
+                    document.getElementById('fiatCurrencyGroup').style.display = 'flex';
+                    document.getElementById('targetAssetGroup').style.display = 'none';
+                    document.getElementById('sourceAssetLabel').textContent = 'Source Asset';
+                    document.getElementById('fiatCurrencyLabel').textContent = 'Target Fiat Currency';
+                    document.getElementById('amountDefinedForGroup').style.display = 'flex';
+                } else if (currentOperation === 'swap') {
                     this.classList.add('active-purple');
                     // Hide fiat group, show target asset selector
                     document.getElementById('fiatCurrencyGroup').style.display = 'none';
                     document.getElementById('targetAssetGroup').style.display = 'flex';
                     document.getElementById('sourceAssetLabel').textContent = 'Source Asset';
+                    document.getElementById('targetAssetLabel').textContent = 'Target Asset';
                     document.getElementById('amountDefinedForGroup').style.display = 'none';
-                    document.getElementById('tradeAmountLabel').textContent = 'Amount (BTC)';
-                } else {
-                    document.getElementById('tradeAmountLabel').textContent = currentAmountType === 'fiat' ? 'Amount (USD)' : 'Amount (BTC)';
+                    const assetSymbol = document.getElementById('selectedAsset').value || 'BTC';
+                    document.getElementById('tradeAmountLabel').textContent = `Amount (${assetSymbol})`;
+                }
+
+                if (currentOperation !== 'swap') {
+                    document.getElementById('tradeAmountLabel').textContent = currentAmountType === 'fiat' ? 'Amount (USD)' : `Amount (${document.getElementById('selectedAsset').value || 'BTC'})`;
                 }
                 
                 calculateQuote();
@@ -624,9 +664,234 @@
             assetToggleBtn.classList.add('active');
             fiatToggleBtn.classList.remove('active');
             currentAmountType = 'asset';
-            document.getElementById('tradeAmountLabel').textContent = 'Amount (BTC)';
+            const assetSymbol = document.getElementById('selectedAsset').value || 'BTC';
+            document.getElementById('tradeAmountLabel').textContent = `Amount (${assetSymbol})`;
             calculateQuote();
         });
+
+        // Searchable Asset Selector Logic
+        const bitpandaAssets = [
+            { symbol: 'BTC', name: 'Bitcoin' },
+            { symbol: 'ETH', name: 'Ethereum' },
+            { symbol: 'BEST', name: 'Bitpanda Ecosystem Token' },
+            { symbol: 'XRP', name: 'Ripple' },
+            { symbol: 'SOL', name: 'Solana' },
+            { symbol: 'ADA', name: 'Cardano' },
+            { symbol: 'DOT', name: 'Polkadot' },
+            { symbol: 'AVAX', name: 'Avalanche' },
+            { symbol: 'LINK', name: 'Chainlink' },
+            { symbol: 'MATIC', name: 'Polygon' },
+            { symbol: 'SHIB', name: 'Shiba Inu' },
+            { symbol: 'DOGE', name: 'Dogecoin' },
+            { symbol: 'LTC', name: 'Litecoin' },
+            { symbol: 'UNI', name: 'Uniswap' },
+            { symbol: 'ATOM', name: 'Cosmos' },
+            { symbol: 'XLM', name: 'Stellar' },
+            { symbol: 'ALGO', name: 'Algorand' },
+            { symbol: 'TRX', name: 'TRON' },
+            { symbol: 'NEAR', name: 'NEAR Protocol' },
+            { symbol: 'AAVE', name: 'Aave' },
+            { symbol: 'FTM', name: 'Fantom' },
+            { symbol: 'VET', name: 'VeChain' },
+            { symbol: 'EGLD', name: 'MultiversX' },
+            { symbol: 'SAND', name: 'The Sandbox' },
+            { symbol: 'MANA', name: 'Decentraland' },
+            { symbol: 'ICP', name: 'Internet Computer' },
+            { symbol: 'AXS', name: 'Axie Infinity' },
+            { symbol: 'FIL', name: 'Filecoin' },
+            { symbol: 'HBAR', name: 'Hedera' },
+            { symbol: 'THETA', name: 'Theta Network' },
+            { symbol: 'GRT', name: 'The Graph' },
+            { symbol: 'XTZ', name: 'Tezos' },
+            { symbol: 'EOS', name: 'EOS' },
+            { symbol: 'QNT', name: 'Quant' },
+            { symbol: 'RNDR', name: 'Render Token' },
+            { symbol: 'STX', name: 'Stacks' },
+            { symbol: 'LDO', name: 'Lido DAO' },
+            { symbol: 'IMX', name: 'Immutable' },
+            { symbol: 'OP', name: 'Optimism' },
+            { symbol: 'ARB', name: 'Arbitrum' },
+            { symbol: 'SEI', name: 'Sei' },
+            { symbol: 'TIA', name: 'Celestia' },
+            { symbol: 'SUI', name: 'Sui' },
+            { symbol: 'APT', name: 'Aptos' },
+            { symbol: 'KAS', name: 'Kaspa' },
+            { symbol: 'STX', name: 'Stacks' },
+            { symbol: 'RETH', name: 'Rocket Pool ETH' },
+            { symbol: 'PEPE', name: 'Pepe' },
+            { symbol: 'BONK', name: 'Bonk' },
+            { symbol: 'WIF', name: 'dogwifhat' },
+            { symbol: 'FLOKI', name: 'Floki' },
+            { symbol: 'JASMY', name: 'JasmyCoin' },
+            { symbol: 'FET', name: 'Fetch.ai' },
+            { symbol: 'AGIX', name: 'SingularityNET' },
+            { symbol: 'OCEAN', name: 'Ocean Protocol' },
+            { symbol: 'RUNE', name: ' THORChain' },
+            { symbol: 'INJ', name: 'Injective' },
+            { symbol: 'GALA', name: 'Gala' },
+            { symbol: 'ENJ', name: 'Enjin Coin' },
+            { symbol: 'CHZ', name: 'Chiliz' },
+            { symbol: 'SNX', name: 'Synthetix' },
+            { symbol: 'CRV', name: 'Curve DAO Token' },
+            { symbol: 'MKR', name: 'Maker' },
+            { symbol: 'COMP', name: 'Compound' },
+            { symbol: 'MKR', name: 'Maker' },
+            { symbol: 'SNX', name: 'Synthetix' },
+            { symbol: 'YFI', name: 'yearn.finance' },
+            { symbol: 'BAL', name: 'Balancer' },
+            { symbol: 'KNC', name: 'Kyber Network' },
+            { symbol: 'ZRX', name: '0x' },
+            { symbol: 'REN', name: 'Ren' },
+            { symbol: 'LRC', name: 'Loopring' },
+            { symbol: 'KAVA', name: 'Kava' },
+            { symbol: 'ZIL', name: 'Zilliqa' },
+            { symbol: 'IOST', name: 'IOST' },
+            { symbol: 'ONT', name: 'Ontology' },
+            { symbol: 'NEO', name: 'Neo' },
+            { symbol: 'QTUM', name: 'Qtum' },
+            { symbol: 'LSK', name: 'Lisk' },
+            { symbol: 'WAVES', name: 'Waves' },
+            { symbol: 'ICX', name: 'ICON' },
+            { symbol: 'NANO', name: 'Nano' },
+            { symbol: 'DGB', name: 'DigiByte' },
+            { symbol: 'RVN', name: 'Ravencoin' },
+            { symbol: 'ZEN', name: 'Horizen' },
+            { symbol: 'CKB', name: 'Nervos Network' },
+            { symbol: 'ONE', name: 'Harmony' },
+            { symbol: 'IOST', name: 'IOST' },
+            { symbol: 'ANKR', name: 'Ankr' },
+            { symbol: 'HOT', name: 'Holo' },
+            { symbol: 'CELR', name: 'Celer Network' },
+            { symbol: 'SKL', name: 'SKALE' },
+            { symbol: 'RLC', name: 'iExec RLC' },
+            { symbol: 'BAND', name: 'Band Protocol' },
+            { symbol: 'DIA', name: 'DIA' },
+            { symbol: 'TRB', name: 'Tellor' },
+            { symbol: 'UMA', name: 'UMA' },
+            { symbol: 'API3', name: 'API3' },
+            { symbol: 'ILV', name: 'Illuvium' },
+            { symbol: 'YGG', name: 'Yield Guide Games' },
+            { symbol: 'MC', name: 'Merit Circle' },
+            { symbol: 'SUPER', name: 'SuperVerse' },
+            { symbol: 'BEAM', name: 'Beam' },
+            { symbol: 'IMX', name: 'Immutable' },
+            { symbol: 'PYTH', name: 'Pyth Network' },
+            { symbol: 'JUP', name: 'Jupiter' },
+            { symbol: 'DYM', name: 'Dymension' },
+            { symbol: 'STRK', name: 'Starknet' },
+            { symbol: 'W', name: 'Wormhole' },
+            { symbol: 'ENA', name: 'Ethena' },
+            { symbol: 'TAO', name: 'Bittensor' },
+            { symbol: 'ORDI', name: 'Ordinals' },
+            { symbol: 'SATS', name: 'SATS' },
+            { symbol: 'GNO', name: 'Gnosis' },
+            { symbol: 'ANT', name: 'Aragon' },
+            { symbol: 'KSM', name: 'Kusama' },
+            { symbol: 'MINA', name: 'Mina' },
+            { symbol: 'BCH', name: 'Bitcoin Cash' },
+            { symbol: 'BSV', name: 'Bitcoin SV' },
+            { symbol: 'XMR', name: 'Monero' },
+            { symbol: 'ZEC', name: 'Zcash' },
+            { symbol: 'DASH', name: 'Dash' },
+            { symbol: 'KMD', name: 'Komodo' },
+            { symbol: 'PIVX', name: 'PIVX' },
+            { symbol: 'GLMR', name: 'Moonbeam' },
+            { symbol: 'MOVR', name: 'Moonriver' },
+            { symbol: 'METIS', name: 'Metis' },
+            { symbol: 'ASTR', name: 'Astar' },
+            { symbol: 'LUNA', name: 'Terra' },
+            { symbol: 'LUNC', name: 'Terra Classic' },
+            { symbol: 'USTC', name: 'TerraClassicUSD' },
+            { symbol: 'DAI', name: 'Dai' },
+            { symbol: 'USDC', name: 'USD Coin' },
+            { symbol: 'USDT', name: 'Tether' },
+            { symbol: 'EURCV', name: 'Societe Generale EUR CoinVertible' }
+        ];
+
+        const assetSearchInput = document.getElementById('assetSearchInput');
+        const assetDropdown = document.getElementById('assetDropdown');
+        const selectedAssetHidden = document.getElementById('selectedAsset');
+
+        function renderAssets(filter = '') {
+            assetDropdown.innerHTML = '';
+            const filtered = bitpandaAssets.filter(a => 
+                a.name.toLowerCase().includes(filter.toLowerCase()) || 
+                a.symbol.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            filtered.forEach(asset => {
+                const item = document.createElement('div');
+                item.className = 'custom-select-item';
+                item.innerHTML = `<strong>${asset.symbol}</strong> - ${asset.name}`;
+                item.addEventListener('click', () => {
+                    assetSearchInput.value = `${asset.symbol} - ${asset.name}`;
+                    selectedAssetHidden.value = asset.symbol;
+                    assetDropdown.classList.remove('show');
+                    
+                    // Update labels if needed
+                    if (currentAmountType === 'asset') {
+                        document.getElementById('tradeAmountLabel').textContent = `Amount (${asset.symbol})`;
+                    }
+                    document.getElementById('assetToggleBtn').textContent = `Asset (${asset.symbol})`;
+                    document.getElementById('quoteAssetAmount').textContent = `0.00000000 ${asset.symbol}`;
+                    
+                    calculateQuote();
+                });
+                assetDropdown.appendChild(item);
+            });
+
+            if (filtered.length === 0) {
+                const noResult = document.createElement('div');
+                noResult.className = 'custom-select-item';
+                noResult.textContent = 'No assets found';
+                assetDropdown.appendChild(noResult);
+            }
+        }
+
+        assetSearchInput.addEventListener('focus', () => {
+            renderAssets(assetSearchInput.value);
+            assetDropdown.classList.add('show');
+            assetSearchInput.select(); // Select text on focus for easy replacement
+        });
+
+        assetSearchInput.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (!assetDropdown.classList.contains('show')) {
+                renderAssets(assetSearchInput.value);
+                assetDropdown.classList.add('show');
+            }
+            assetSearchInput.select(); // Select text on click too
+        });
+
+        assetSearchInput.addEventListener('input', (e) => {
+            renderAssets(e.target.value);
+            assetDropdown.classList.add('show');
+        });
+
+        // Toggle dropdown when clicking the wrapper or icons
+        document.querySelector('.custom-select-input-wrapper').addEventListener('click', (e) => {
+            if (e.target !== assetSearchInput) {
+                e.stopPropagation();
+                const isShowing = assetDropdown.classList.contains('show');
+                if (isShowing) {
+                    assetDropdown.classList.remove('show');
+                } else {
+                    renderAssets(assetSearchInput.value);
+                    assetDropdown.classList.add('show');
+                    assetSearchInput.focus();
+                }
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.custom-select-container')) {
+                assetDropdown.classList.remove('show');
+            }
+        });
+
+        // Initialize with BTC
+        assetSearchInput.value = 'BTC - Bitcoin';
 
         // Notification dropdown logic
         const notificationBtn = document.getElementById('notificationBtn');

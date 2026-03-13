@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onboarding & KYC - OndaFinance</title>
+    <title>Onboarding & KYC - Onda Crypto</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="onboarding.css">
@@ -12,43 +12,16 @@
     <div class="onboarding-layout">
         <aside class="onboarding-sidebar">
             <div class="logo">
-                <img src="logo.png" alt="OndaFinance">
+                <img src="logo.png" alt="Onda Crypto">
             </div>
             
-            <div class="progress-steps">
-                <div class="step-item active" id="step-nav-1">
-                    <div class="step-number">1</div>
+            <div class="progress-steps" id="sidebar-steps">
+                <!-- Dynamically populated based on flow -->
+                <div class="step-item active" id="step-nav-0">
+                    <div class="step-number">0</div>
                     <div class="step-info">
-                        <span class="step-title">Account Creation</span>
-                        <span class="step-desc">Provision BP Account</span>
-                    </div>
-                </div>
-                <div class="step-item" id="step-nav-2">
-                    <div class="step-number">2</div>
-                    <div class="step-info">
-                        <span class="step-title">Legal Terms</span>
-                        <span class="step-desc">Terms & Conditions</span>
-                    </div>
-                </div>
-                <div class="step-item" id="step-nav-3">
-                    <div class="step-number">3</div>
-                    <div class="step-info">
-                        <span class="step-title">Compliance Info</span>
-                        <span class="step-desc">AML Questionnaires</span>
-                    </div>
-                </div>
-                <div class="step-item" id="step-nav-4">
-                    <div class="step-number">4</div>
-                    <div class="step-info">
-                        <span class="step-title">Document Upload</span>
-                        <span class="step-desc">ID and Residence</span>
-                    </div>
-                </div>
-                <div class="step-item" id="step-nav-5">
-                    <div class="step-number">5</div>
-                    <div class="step-info">
-                        <span class="step-title">Final Review</span>
-                        <span class="step-desc">Bitpanda Monitoring</span>
+                        <span class="step-title">Account Type</span>
+                        <span class="step-desc">Individual or Business</span>
                     </div>
                 </div>
             </div>
@@ -57,198 +30,320 @@
         <main class="onboarding-main">
             <div class="content-wrapper">
                 
-                <!-- Step 1: Account Creation -->
-                <div class="step-content active" id="content-1">
+                <!-- Step 0: Choice -->
+                <div class="step-content active" id="content-0">
                     <div class="step-header">
-                        <h1>User Provisioning</h1>
-                        <p>Begin the onboarding by creating your trading account on the Bitpanda infrastructure. This information will be used to generate your unique PID.</p>
+                        <h1>Welcome to Onda Crypto</h1>
+                        <p>To begin, please select the type of account you would like to open. This will determine the documents and information required.</p>
                     </div>
                     
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>First Name</label>
-                            <input type="text" placeholder="John" id="first_name">
+                    <div class="account-type-grid">
+                        <div class="type-card" onclick="selectAccountType('PF')">
+                            <i class="ph ph-user"></i>
+                            <h3>Individual (PF)</h3>
+                            <p>For individuals looking to trade and manage their own digital assets.</p>
                         </div>
-                        <div class="form-group">
-                            <label>Last Name</label>
-                            <input type="text" placeholder="Doe" id="last_name">
+                        <div class="type-card" onclick="selectAccountType('PJ')">
+                            <i class="ph ph-buildings"></i>
+                            <h3>Business (PJ)</h3>
+                            <p>For companies and legal entities requiring institutional-grade crypto services.</p>
                         </div>
-                        <div class="form-group full-width">
-                            <label>Email Address</label>
-                            <input type="email" placeholder="john.doe@example.com" id="email">
-                        </div>
-                        <div class="form-group">
-                            <label>Citizenship</label>
-                            <select id="citizenship">
-                                <option value="BR">Brazil</option>
-                                <option value="US">USA</option>
-                                <option value="DE">Germany</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Date of Birth</label>
-                            <input type="date" id="dob">
-                        </div>
-                    </div>
-                    
-                    <div class="step-actions">
-                        <button class="btn-secondary" onclick="window.location.href='index.html'">Cancel</button>
-                        <button class="btn-primary" onclick="provisionUser()">Next: Accept Terms <i class="ph ph-arrow-right"></i></button>
                     </div>
                 </div>
 
-                <!-- Step 2: Legal Documents -->
-                <div class="step-content" id="content-2">
-                    <div class="step-header">
-                        <h1>Legal Consent</h1>
-                        <p>Please review and accept the following Bitpanda legal documents. Your unique PID is <span id="display-pid" style="color:var(--accent-green);font-weight:700;">PROVISIONING...</span></p>
-                    </div>
-                    
-                    <div class="legal-list">
-                        <div class="legal-item">
-                            <div class="legal-info">
-                                <span class="legal-id">GET /terms-conditions-v2</span>
-                                <h4>General Terms & Conditions</h4>
-                            </div>
-                            <button class="btn-view">View Document</button>
+                <!-- Individual Flow (PF) -->
+                <div id="pf-flow" style="display: none;">
+                    <!-- Step 1: PF Account Creation -->
+                    <div class="step-content" id="content-pf-1">
+                        <div class="step-header">
+                            <h1>Individual Registration</h1>
+                            <p>Provide your personal details as they appear on your official documents.</p>
                         </div>
-                        <div class="legal-item">
-                            <div class="legal-info">
-                                <span class="legal-id">GET /legal-documents</span>
-                                <h4>Bitpanda Asset Management T&C</h4>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label>Full Name</label>
+                                <input type="text" placeholder="Complete Name" id="pf_full_name">
                             </div>
-                            <button class="btn-view">View Document</button>
-                        </div>
-                        <div class="legal-item">
-                            <div class="legal-info">
-                                <span class="legal-id">GET /legal-documents</span>
-                                <h4>Privacy Policy</h4>
+                            <div class="form-group">
+                                <label>Date of Birth</label>
+                                <input type="date" id="pf_dob">
                             </div>
-                            <button class="btn-view">View Document</button>
+                            <div class="form-group">
+                                <label>Place of Birth</label>
+                                <input type="text" placeholder="City, State" id="pf_pob">
+                            </div>
+                            <div class="form-group">
+                                <label>Nationality</label>
+                                <select id="pf_nationality">
+                                    <option value="BR">Brazil</option>
+                                    <option value="US">USA</option>
+                                    <option value="EU">European Union</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>CPF / Tax ID</label>
+                                <input type="text" placeholder="000.000.000-00" id="pf_tax_id">
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Address</label>
+                                <input type="text" placeholder="Street, Number, Neighborhood" id="pf_address">
+                            </div>
+                            <div class="form-group">
+                                <label>Email Address</label>
+                                <input type="email" placeholder="email@example.com" id="pf_email">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input type="tel" placeholder="+55 11 99999-9999" id="pf_phone">
+                            </div>
+                        </div>
+                        <div class="step-actions">
+                            <button class="btn-secondary" onclick="showStep(0)">Back</button>
+                            <button class="btn-primary" onclick="nextStepPF(2)">Next: Compliance Info <i class="ph ph-arrow-right"></i></button>
                         </div>
                     </div>
 
-                    <div class="form-group" style="flex-direction: row; align-items: center; gap: 12px; margin-bottom: 20px;">
-                        <input type="checkbox" id="consent-check" style="width: 20px; height: 20px;">
-                        <label for="consent-check" style="text-transform: none; color: white;">I have read and agree to all legal documents listed above via POST /capture-consent.</label>
+                    <!-- Step 2: PF Compliance -->
+                    <div class="step-content" id="content-pf-2">
+                        <div class="step-header">
+                            <h1>Compliance & AML</h1>
+                            <p>To comply with Bitpanda BYOL regulations, we need to understand your financial profile.</p>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Employment Status</label>
+                                <select id="pf_employment">
+                                    <option>Employed</option>
+                                    <option>Self-employed</option>
+                                    <option>Retired</option>
+                                    <option>Unemployed</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Occupation / Cargo</label>
+                                <input type="text" placeholder="Your Role" id="pf_job">
+                            </div>
+                            <div class="form-group">
+                                <label>Origin of Wealth</label>
+                                <select id="pf_wealth">
+                                    <option>Salary</option>
+                                    <option>Inheritance</option>
+                                    <option>Investments</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Expected Annual Volume (EUR)</label>
+                                <select id="pf_volume">
+                                    <option>0 - 25k</option>
+                                    <option>25k - 100k</option>
+                                    <option>> 100k</option>
+                                </select>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Are you a Politically Exposed Person (PEP)?</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="pf_pep" value="no" checked> No</label>
+                                    <label><input type="radio" name="pf_pep" value="yes"> Yes</label>
+                                </div>
+                            </div>
+                            <div class="form-group full-width">
+                                <label>FATCA: Are you a US Person?</label>
+                                <div class="radio-group">
+                                    <label><input type="radio" name="pf_fatca" value="no" checked> No</label>
+                                    <label><input type="radio" name="pf_fatca" value="yes"> Yes</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-actions">
+                            <button class="btn-secondary" onclick="showStepPF(1)">Back</button>
+                            <button class="btn-primary" onclick="nextStepPF(3)">Next: Documents <i class="ph ph-arrow-right"></i></button>
+                        </div>
                     </div>
 
-                    <div class="step-actions">
-                        <button class="btn-secondary" onclick="prevStep(1)">Back</button>
-                        <button class="btn-primary" onclick="submitConsent()">Next: Questionnaires <i class="ph ph-arrow-right"></i></button>
-                    </div>
-                </div>
-
-                <!-- Step 3: Questionnaires -->
-                <div class="step-content" id="content-3">
-                    <div class="step-header">
-                        <h1>Regulatory Data</h1>
-                        <p>Complete the mandatory Bitpanda regulatory questionnaires to verify your investor profile and source of funds.</p>
-                    </div>
-
-                    <div class="form-grid">
-                        <div class="form-group full-width">
-                            <label>Employment Status (GET /aml-questions)</label>
-                            <select>
-                                <option>Employed</option>
-                                <option>Self-employed</option>
-                                <option>Retired</option>
-                                <option>Unemployed</option>
-                            </select>
+                    <!-- Step 3: PF Legal & Biometry -->
+                    <div class="step-content" id="content-pf-3">
+                        <div class="step-header">
+                            <h1>Verification & Terms</h1>
+                            <p>Agree to the legal terms and provide your documents for identity verification.</p>
+                        </div>
+                        <div class="legal-list">
+                            <div class="legal-item">
+                                <div class="legal-info"><h4>Terms & Conditions (T&C)</h4></div>
+                                <button class="btn-view">View</button>
+                            </div>
+                            <div class="legal-item">
+                                <div class="legal-info"><h4>Privacy Policy / LGPD</h4></div>
+                                <button class="btn-view">View</button>
+                            </div>
+                            <div class="legal-item">
+                                <div class="legal-info"><h4>Risk Disclosure Notice</h4></div>
+                                <button class="btn-view">View</button>
+                            </div>
+                        </div>
+                        <div class="form-group" style="flex-direction: row; align-items: center; gap: 12px; margin-bottom: 24px;">
+                            <input type="checkbox" id="pf_consent">
+                            <label for="pf_consent" style="text-transform: none; color: white;">I agree to all terms and authorize Final Compliance Check.</label>
                         </div>
                         <div class="form-group">
-                            <label>Annual Income (EUR)</label>
-                            <select>
-                                <option>0 - 25k</option>
-                                <option>25k - 50k</option>
-                                <option>50k - 100k</option>
-                                <option>> 100k</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Origin of Funds</label>
-                            <select>
-                                <option>Salary</option>
-                                <option>Inheritance</option>
-                                <option>Investments</option>
-                                <option>Savings</option>
-                            </select>
-                        </div>
-                        <div class="form-group full-width">
-                            <label>FATCA: Are you a US Person? (GET /fatca-questionnaire)</label>
-                            <div style="display:flex; gap: 20px; margin-top: 10px;">
-                                <label style="display:flex; align-items:center; gap:8px;">
-                                    <input type="radio" name="fatca" value="no" checked> No
-                                </label>
-                                <label style="display:flex; align-items:center; gap:8px;">
-                                    <input type="radio" name="fatca" value="yes"> Yes
-                                </label>
+                            <label>Identity Document (RG/CNH/Passport)</label>
+                            <div class="upload-zone" onclick="mockUpload('pf_id')">
+                                <i class="ph ph-identification-card"></i>
+                                <p id="pf_id_status">Upload document photo</p>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="step-actions">
-                        <button class="btn-secondary" onclick="prevStep(2)">Back</button>
-                        <button class="btn-primary" onclick="nextStep(4)">Next: Document Upload <i class="ph ph-arrow-right"></i></button>
+                        <div class="form-group">
+                            <label>Video Identity Verification (Biometry)</label>
+                            <div class="upload-zone" onclick="mockBiometry('pf')">
+                                <i class="ph ph-video-camera"></i>
+                                <p id="pf_bio_status">Start live video identification</p>
+                            </div>
+                        </div>
+                        <div class="step-actions">
+                            <button class="btn-secondary" onclick="showStepPF(2)">Back</button>
+                            <button class="btn-primary" onclick="finishPF()">Complete & Submit <i class="ph ph-check"></i></button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Step 4: Documents -->
-                <div class="step-content" id="content-4">
-                    <div class="step-header">
-                        <h1>Identity Verification</h1>
-                        <p>Upload your official documents for Bitpanda's compliance team to review. Supported: JPG, PNG, PDF.</p>
-                    </div>
-
-                    <div class="form-group" style="margin-bottom: 24px;">
-                        <label>Identity Document (Passport / ID Card)</label>
-                        <div class="upload-zone" onclick="mockUpload('identity')">
-                            <i class="ph ph-identification-card"></i>
-                            <p id="id-status">Drop identity document here or click to upload</p>
-                            <span class="legal-id">POST /upload-a-file</span>
+                <!-- Business Flow (PJ) -->
+                <div id="pj-flow" style="display: none;">
+                    <!-- Step 1: Corporate ID -->
+                    <div class="step-content" id="content-pj-1">
+                        <div class="step-header">
+                            <h1>Corporate Details</h1>
+                            <p>Provide the legal registration details of your entity.</p>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label>Legal Entity Name</label>
+                                <input type="text" placeholder="Company Name LTDA/SA" id="pj_name">
+                            </div>
+                            <div class="form-group">
+                                <label>Legal Form</label>
+                                <select id="pj_form">
+                                    <option>LTDA</option>
+                                    <option>S.A.</option>
+                                    <option>Limited</option>
+                                    <option>Foundation</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Registration Number (CNPJ)</label>
+                                <input type="text" placeholder="00.000.000/0001-00" id="pj_reg">
+                            </div>
+                            <div class="form-group full-width">
+                                <label>Registered Office Address</label>
+                                <input type="text" placeholder="Full Headquarter Address" id="pj_addr">
+                            </div>
+                            <div class="form-group">
+                                <label>Incorporation Date</label>
+                                <input type="date" id="pj_date">
+                            </div>
+                            <div class="form-group">
+                                <label>Origin of Funds</label>
+                                <select>
+                                    <option>Operational Profit</option>
+                                    <option>Capital Injection</option>
+                                    <option>Loans</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="step-actions">
+                            <button class="btn-secondary" onclick="showStep(0)">Back</button>
+                            <button class="btn-primary" onclick="nextStepPJ(2)">Next: Related Individuals <i class="ph ph-arrow-right"></i></button>
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>Proof of Residence (Utility Bill / Bank Statement)</label>
-                        <div class="upload-zone" onclick="mockUpload('residence')">
-                            <i class="ph ph-house-line"></i>
-                            <p id="res-status">Drop proof of residence here or click to upload</p>
-                            <span class="legal-id">POST /upload-a-file</span>
+                    <!-- Step 2: Related Individuals (MD/UBO) -->
+                    <div class="step-content" id="content-pj-2">
+                        <div class="step-header">
+                            <h1>Related Individuals</h1>
+                            <p>Register all Managing Directors and Ultimate Beneficial Owners (UBOs) with ≥10% control.</p>
+                        </div>
+                        <div class="repeater-section">
+                            <div class="repeater-header">
+                                <h4>Managing Directors</h4>
+                                <button class="btn-add-small">+ Add Director</button>
+                            </div>
+                            <div class="entry-item">
+                                <div class="form-grid" style="margin-bottom: 0;">
+                                    <div class="form-group"><label>Full Name</label><input type="text"></div>
+                                    <div class="form-group"><label>Date of Birth</label><input type="date"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="repeater-section">
+                            <div class="repeater-header">
+                                <h4>Ultimate Beneficial Owners (UBO)</h4>
+                                <button class="btn-add-small">+ Add UBO</button>
+                            </div>
+                            <div class="entry-item">
+                                <div class="form-grid" style="margin-bottom: 0;">
+                                    <div class="form-group"><label>Name</label><input type="text"></div>
+                                    <div class="form-group"><label>Ownership %</label><input type="number" value="10"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-actions">
+                            <button class="btn-secondary" onclick="showStepPJ(1)">Back</button>
+                            <button class="btn-primary" onclick="nextStepPJ(3)">Next: Corporate Docs <i class="ph ph-arrow-right"></i></button>
                         </div>
                     </div>
 
-                    <div class="step-actions">
-                        <button class="btn-secondary" onclick="prevStep(3)">Back</button>
-                        <button class="btn-primary" onclick="nextStep(5)">Finish Application <i class="ph ph-arrow-right"></i></button>
+                    <!-- Step 3: PJ Docs & Compliance -->
+                    <div class="step-content" id="content-pj-3">
+                        <div class="step-header">
+                            <h1>Corporate Verification</h1>
+                            <p>Upload statutory documents and complete the AML questionnaire.</p>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Articles of Association / Contrato Social</label>
+                                <div class="upload-zone" onclick="mockUpload('pj_statutes')">
+                                    <i class="ph ph-file-pdf"></i>
+                                    <p id="pj_statutes_status">Upload PDF</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Ownership Structure Chart</label>
+                                <div class="upload-zone" onclick="mockUpload('pj_chart')">
+                                    <i class="ph ph-diagram"></i>
+                                    <p id="pj_chart_status">Upload Chart</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group full-width" style="margin-bottom: 24px;">
+                            <label>Does the entity have any PEP in its structure?</label>
+                            <div class="radio-group" style="margin-top: 8px;">
+                                <label><input type="radio" name="pj_pep" value="no" checked> No</label>
+                                <label><input type="radio" name="pj_pep" value="yes"> Yes</label>
+                            </div>
+                        </div>
+                        <div class="step-actions">
+                            <button class="btn-secondary" onclick="showStepPJ(2)">Back</button>
+                            <button class="btn-primary" onclick="finishPJ()">Submit Corporate Application <i class="ph ph-check"></i></button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Step 5: Final Review -->
-                <div class="step-content" id="content-5">
+                <!-- Success Step -->
+                <div class="step-content" id="content-success" style="display: none;">
                     <div class="success-card">
-                        <div class="success-icon">
-                            <i class="ph ph-check"></i>
-                        </div>
-                        <h1>Application Submitted!</h1>
-                        <p>Your data has been successfully sent to Bitpanda via the BTS API. Our compliance team will review your information shortly.</p>
-                        
+                        <div class="success-icon"><i class="ph ph-check"></i></div>
+                        <h1 id="success-title">Application Submitted!</h1>
+                        <p>Your onboarding request has been sent to Bitpanda Technology Solutions for final verification.</p>
                         <div class="compliance-status">
                             <div class="status-dot"></div>
                             <div>
-                                <strong style="display:block">Monitoring Status (GET /user-compliance-status)</strong>
-                                <span style="color:var(--text-gray); font-size: 13px;">CURRENT STATE: <strong>UNDER REVIEW</strong></span>
+                                <strong style="display:block">Monitoring (GET /user-compliance-status)</strong>
+                                <span>STATUS: <strong>UNDER_REVIEW</strong></span>
                             </div>
                         </div>
-
-                        <div style="margin-top: 40px; padding: 20px; border: 1px solid var(--border-color); border-radius: 12px; text-align: left;">
-                            <label>Stored PID for Future Transactions</label>
-                            <code id="final-pid" style="display:block; background:#000; padding:12px; border-radius:8px; margin-top:8px; color:var(--accent-green); font-family: monospace;">---</code>
+                        <div style="margin-top: 32px; padding: 16px; background: #000; border-radius: 8px;">
+                            <label>Account Reference (PID)</label>
+                            <code id="final-pid" style="color:var(--accent-green); display:block; margin-top:8px;">---</code>
                         </div>
-
-                        <button class="btn-primary" style="margin: 32px auto 0;" onclick="window.location.href='trades.html'">
-                            Go to Dashboard
-                        </button>
+                        <button class="btn-primary" style="margin: 32px auto 0;" onclick="window.location.href='trades.html'">Go to Dashboard</button>
                     </div>
                 </div>
 
@@ -257,65 +352,114 @@
     </div>
 
     <script>
-        let currentStep = 1;
-        let userData = {
-            pid: null
-        };
+        let currentFlow = null;
+        let currentStep = 0;
+
+        const sidebarPF = [
+            { id: 0, title: 'Account Type', desc: 'PF or PJ' },
+            { id: 1, title: 'Personal Info', desc: 'Identification' },
+            { id: 2, title: 'Compliance', desc: 'AML/PEP Data' },
+            { id: 3, title: 'Verification', desc: 'Docs & Biometry' }
+        ];
+
+        const sidebarPJ = [
+            { id: 0, title: 'Account Type', desc: 'PF or PJ' },
+            { id: 1, title: 'Company Info', desc: 'Registration' },
+            { id: 2, title: 'Stakeholders', desc: 'Directors & UBOs' },
+            { id: 3, title: 'Documents', desc: 'Articles & Charts' }
+        ];
+
+        function updateSidebar() {
+            const steps = currentFlow === 'PF' ? sidebarPF : (currentFlow === 'PJ' ? sidebarPJ : [{ id: 0, title: 'Account Type', desc: 'Individual or Business' }]);
+            const container = document.getElementById('sidebar-steps');
+            container.innerHTML = '';
+            
+            steps.forEach(step => {
+                const isActive = currentStep === step.id;
+                const isCompleted = currentStep > step.id;
+                
+                const div = document.createElement('div');
+                div.className = `step-item ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}`;
+                div.innerHTML = `
+                    <div class="step-number">${step.id}</div>
+                    <div class="step-info">
+                        <span class="step-title">${step.title}</span>
+                        <span class="step-desc">${step.desc}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
 
         function showStep(n) {
-            document.querySelectorAll('.step-content').forEach(c => c.classList.remove('active'));
-            document.getElementById(`content-${n}`).classList.add('active');
-            
-            // Sidebar updates
-            document.querySelectorAll('.step-item').forEach((item, idx) => {
-                if (idx + 1 === n) {
-                    item.className = 'step-item active';
-                } else if (idx + 1 < n) {
-                    item.className = 'step-item completed';
-                } else {
-                    item.className = 'step-item';
-                }
-            });
+            document.querySelectorAll('.step-content').forEach(c => c.style.display = 'none');
+            const target = document.getElementById(`content-${n}`);
+            if(target) target.style.display = 'block';
             currentStep = n;
+            updateSidebar();
         }
 
-        function nextStep(n) {
-            showStep(n);
-        }
-
-        function prevStep(n) {
-            showStep(n);
-        }
-
-        function provisionUser() {
-            // Mocking POST /users
-            const firstName = document.getElementById('first_name').value || 'John';
-            const lastName = document.getElementById('last_name').value || 'Doe';
+        function selectAccountType(type) {
+            currentFlow = type;
+            document.getElementById('pf-flow').style.display = type === 'PF' ? 'block' : 'none';
+            document.getElementById('pj-flow').style.display = type === 'PJ' ? 'block' : 'none';
             
-            // In a real app, this would be the response from Bitpanda BTS
-            userData.pid = 'bp_usr_' + Math.random().toString(36).substr(2, 9);
-            document.getElementById('display-pid').textContent = userData.pid;
-            document.getElementById('final-pid').textContent = userData.pid;
-            
-            alert(`Bitpanda BTS API: Account created for ${firstName} ${lastName}! PID generated.`);
-            nextStep(2);
+            if(type === 'PF') nextStepPF(1);
+            else nextStepPJ(1);
         }
 
-        function submitConsent() {
-            if (!document.getElementById('consent-check').checked) {
-                alert('Please accept the legal terms to continue.');
+        // PF Navigation
+        function showStepPF(n) {
+            document.querySelectorAll('.step-content').forEach(c => c.style.display = 'none');
+            document.getElementById(`content-pf-${n}`).style.display = 'block';
+            currentStep = n;
+            updateSidebar();
+        }
+        function nextStepPF(n) { showStepPF(n); }
+        
+        // PJ Navigation
+        function showStepPJ(n) {
+            document.querySelectorAll('.step-content').forEach(c => c.style.display = 'none');
+            document.getElementById(`content-pj-${n}`).style.display = 'block';
+            currentStep = n;
+            updateSidebar();
+        }
+        function nextStepPJ(n) { showStepPJ(n); }
+
+        function finishPF() {
+            if(!document.getElementById('pf_consent').checked) {
+                alert("Please accept the terms to continue.");
                 return;
             }
-            alert('POST /capture-consent-for-users-final-check: Consent registered.');
-            nextStep(3);
+            const pid = 'bp_pf_' + Math.random().toString(36).substr(2, 9);
+            document.getElementById('final-pid').textContent = pid;
+            document.getElementById('pf-flow').style.display = 'none';
+            showStep('success');
         }
 
-        function mockUpload(type) {
-            const status = document.getElementById(type === 'identity' ? 'id-status' : 'res-status');
-            status.textContent = "Uploading to Bitpanda storage...";
+        function finishPJ() {
+            const pid = 'bp_pj_' + Math.random().toString(36).substr(2, 9);
+            document.getElementById('final-pid').textContent = pid;
+            document.getElementById('success-title').textContent = "Corporate Application Submitted!";
+            document.getElementById('pj-flow').style.display = 'none';
+            showStep('success');
+        }
+
+        function mockUpload(id) {
+            const el = document.getElementById(id + '_status');
+            el.textContent = "Uploading to Bitpanda storage...";
             setTimeout(() => {
-                status.textContent = "Document uploaded successfully! (Mocked POST /upload-a-file)";
-                status.style.color = "var(--accent-green)";
+                el.textContent = "File Uploaded Successfully!";
+                el.style.color = "var(--accent-green)";
+            }, 1000);
+        }
+
+        function mockBiometry(type) {
+            const el = document.getElementById(type + '_bio_status');
+            el.textContent = "Connecting to video server...";
+            setTimeout(() => {
+                el.textContent = "Biometry Recorded (POST /video-identification)";
+                el.style.color = "var(--accent-green)";
             }, 1500);
         }
     </script>

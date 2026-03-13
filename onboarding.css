@@ -338,3 +338,130 @@ input:focus {
   color: var(--text-gray);
   margin-bottom: 12px;
 }
+
+/* Account Type Selection */
+.account-type-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.type-card {
+  background: var(--bg-dark-200);
+  border: 2px solid var(--border-color);
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.type-card:hover {
+  border-color: var(--accent-green);
+  background: rgba(74, 222, 128, 0.02);
+  transform: translateY(-4px);
+}
+
+.type-card.selected {
+  border-color: var(--accent-green);
+  background: rgba(74, 222, 128, 0.05);
+}
+
+.type-card i {
+  font-size: 48px;
+  color: var(--accent-green);
+}
+
+.type-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.type-card p {
+  font-size: 14px;
+  color: var(--text-gray);
+  line-height: 1.5;
+}
+
+/* Nested / Corporate Styles */
+.repeater-section {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.repeater-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.repeater-header h4 {
+  font-size: 14px;
+  color: var(--text-white);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.btn-add-small {
+  background: none;
+  border: 1px solid var(--accent-green);
+  color: var(--accent-green);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.entry-item {
+  background: var(--bg-dark-300);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.btn-remove {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* Radio Group */
+.radio-group {
+    display: flex;
+    gap: 20px;
+    background: var(--bg-dark-300);
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    text-transform: none;
+    color: var(--text-white);
+}
+
+.radio-group input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent-green);
+}

@@ -9,6 +9,7 @@
     <!-- Phosphor Icons for precise interface icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="styles.css">
+    <script src="global-sync.js" defer></script>
 </head>
 <body>
     <!-- Overlay for mobile sidebar -->
@@ -100,15 +101,34 @@
 
         <div class="dashboard-content">
             <!-- Header Panel Info -->
-            <div class="page-header" style="margin-bottom: 24px;">
-                <div>
-                    <h1 class="page-title">Reports</h1>
-                    <p style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">Generate and download financial reports</p>
-                </div>
-                <div class="page-actions">
-                    <button class="btn btn-primary">
-                        <i class="ph ph-plus"></i> New Report
-                    </button>
+            <div class="panel header-panel">
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Reports</h1>
+                        <div class="selected-client-highlight">
+                            <div class="selected-client-display">
+                                <i class="ph ph-user"></i>
+                                Selected Client: <span class="selected-client-name" id="walletClientName">No client selected</span>
+                            </div>
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 14px; margin-top: 4px;">Generate and download financial reports</p>
+                    </div>
+                    <div class="page-actions">
+                        <div class="wallet-client-selector">
+                            <div class="client-search-container">
+                                <div class="input-with-icon" style="margin-bottom: 0;">
+                                    <i class="ph ph-magnifying-glass"></i>
+                                    <input type="text" id="walletClientSearch" placeholder="Search client by name or CPF..." autocomplete="off">
+                                </div>
+                                <div id="clientResultsDropdown" class="client-results-dropdown">
+                                    <!-- Results filled by JS -->
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">
+                            <i class="ph ph-plus"></i> New Report
+                        </button>
+                    </div>
                 </div>
             </div>
 

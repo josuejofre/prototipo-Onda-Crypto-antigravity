@@ -9,6 +9,7 @@
     <!-- Phosphor Icons for precise interface icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="stylesheet" href="styles.css">
+    <script src="global-sync.js" defer></script>
 </head>
 <body>
     <!-- Overlay for mobile sidebar -->
@@ -113,9 +114,14 @@
                     </div>
                     <div class="page-actions">
                         <div class="wallet-client-selector">
-                            <div class="input-with-icon" style="margin-bottom: 0;">
-                                <i class="ph ph-magnifying-glass"></i>
-                                <input type="text" id="walletClientSearch" placeholder="Search client by name or UUID..." value="Joao Silva">
+                            <div class="client-search-container">
+                                <div class="input-with-icon" style="margin-bottom: 0;">
+                                    <i class="ph ph-magnifying-glass"></i>
+                                    <input type="text" id="walletClientSearch" placeholder="Search client by name or CPF..." autocomplete="off">
+                                </div>
+                                <div id="clientResultsDropdown" class="client-results-dropdown">
+                                    <!-- Results filled by JS -->
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -456,21 +462,8 @@
             }
         });
 
-        // Wallet Client Selection Logic
-        const walletClientSearch = document.getElementById('walletClientSearch');
-        const walletClientName = document.getElementById('walletClientName');
 
-        if (walletClientSearch && walletClientName) {
-            walletClientSearch.addEventListener('input', (e) => {
-                // For the prototype, we simply update the display name
-                // In a real app, this would trigger a search and then update on selection
-                if (e.target.value.trim() !== '') {
-                    walletClientName.textContent = e.target.value;
-                } else {
-                    walletClientName.textContent = 'None';
-                }
-            });
-        }
+        // Initialize local highlight from storage - already handled by global-sync.js initClientSelector
     </script>
 </body>
 </html>
