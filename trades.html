@@ -609,7 +609,7 @@
             const progressBarContainer = document.getElementById('otcProgressBarContainer');
             const progressBar = document.getElementById('otcProgressBar');
             
-            if (progressBarContainer && progressBar && document.getElementById('quotePart2Title').style.display !== 'none') {
+            if (progressBarContainer && progressBar && currentOperation !== 'swap') {
                 progressBarContainer.style.display = 'block';
                 progressBar.style.width = '100%';
                 progressBar.style.background = 'var(--accent-green)';
