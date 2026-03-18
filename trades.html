@@ -399,6 +399,10 @@
                     <!-- Part 2: Exchange & Fees -->
                     <div style="font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase;" id="quotePart2Title">2. Exchange & Fees</div>
                     
+                    <div id="otcProgressBarContainer" style="width: 100%; height: 4px; background: var(--bg-main); border-radius: 2px; margin-bottom: 8px; overflow: hidden; display: none;">
+                        <div id="otcProgressBar" style="height: 100%; width: 100%; background: var(--accent-green); transition: width 0.05s linear, background-color 0.3s ease;"></div>
+                    </div>
+                    
                     <div class="quote-row" id="quoteBinanceUSDRow">
                         <span>OTC Quote</span>
                         <span id="quoteBinanceQuote">R$ 0.00</span>
@@ -496,6 +500,7 @@
         }
         
         let countdownInterval;
+        let progressInterval;
         let timeLeft = 60;
         let binanceUSDTBRL = 5.00; // Default fallback
         let cryptoUSDTPrice = 67432.50; // Default fallback for BTC
@@ -554,8 +559,34 @@
             refreshQuoteBtn.addEventListener('click', calculateQuote);
         }
 
+        function expireQuote() {
+            clearInterval(countdownInterval);
+            clearInterval(progressInterval);
+            
+            // UI state for expiration
+            quoteCountdown.className = 'countdown-timer expired';
+            countdownText.textContent = 'Expired';
+            
+            const progressBar = document.getElementById('otcProgressBar');
+            if(progressBar) {
+                progressBar.style.width = '0%';
+                progressBar.style.background = 'var(--accent-red)';
+            }
+            
+            // Disable Create Offer and show New Quote
+            if (createOfferBtn) {
+                createOfferBtn.disabled = true;
+                createOfferBtn.style.display = 'none';
+            }
+            if (refreshQuoteBtn) {
+                refreshQuoteBtn.style.display = 'block';
+            }
+        }
+
         function startCountdown() {
             clearInterval(countdownInterval);
+            clearInterval(progressInterval);
+            
             quoteCountdown.style.display = 'flex';
             quoteCountdown.className = 'countdown-timer';
             
@@ -574,31 +605,55 @@
                 refreshQuoteBtn.style.display = 'none';
             }
             
+            // Progress Bar Logic
+            const progressBarContainer = document.getElementById('otcProgressBarContainer');
+            const progressBar = document.getElementById('otcProgressBar');
+            
+            if (progressBarContainer && progressBar && document.getElementById('quotePart2Title').style.display !== 'none') {
+                progressBarContainer.style.display = 'block';
+                progressBar.style.width = '100%';
+                progressBar.style.background = 'var(--accent-green)';
+                
+                let progressTimeLeft = 5000; // 5 seconds
+                const updateInterval = 50; // 50ms for smooth animation
+                
+                progressInterval = setInterval(() => {
+                    progressTimeLeft -= updateInterval;
+                    const percentage = (progressTimeLeft / 5000) * 100;
+                    progressBar.style.width = `${Math.max(0, percentage)}%`;
+                    
+                    if (progressTimeLeft <= 2000 && percentage > 0) {
+                        progressBar.style.background = 'var(--accent-yellow)';
+                    }
+                    if (progressTimeLeft <= 1000 && percentage > 0) {
+                        progressBar.style.background = 'var(--accent-red)';
+                    }
+                    
+                    if (progressTimeLeft <= 0) {
+                        expireQuote();
+                    }
+                }, updateInterval);
+            } else if (progressBarContainer) {
+                progressBarContainer.style.display = 'none';
+            }
+
             countdownInterval = setInterval(() => {
                 timeLeft--;
-                countdownText.textContent = timeLeft + 's';
+                if (timeLeft >= 0) {
+                    countdownText.textContent = timeLeft + 's';
+                }
                 
                 if (timeLeft <= 5 && timeLeft > 0) {
                     quoteCountdown.className = 'countdown-timer warning';
                 } else if (timeLeft <= 0) {
-                    clearInterval(countdownInterval);
-                    quoteCountdown.className = 'countdown-timer expired';
-                    countdownText.textContent = 'Expired';
-                    
-                    // Disable Create Offer and show New Quote
-                    if (createOfferBtn) {
-                        createOfferBtn.disabled = true;
-                        createOfferBtn.style.display = 'none';
-                    }
-                    if (refreshQuoteBtn) {
-                        refreshQuoteBtn.style.display = 'block';
-                    }
+                    expireQuote();
                 }
             }, 1000);
         }
 
         function stopCountdown() {
             clearInterval(countdownInterval);
+            clearInterval(progressInterval);
             quoteCountdown.style.display = 'none';
         }
 
